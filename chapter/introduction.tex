@@ -1,0 +1,38 @@
+\chapter{Introduction}\label{introduction}
+
+\section{Background of Quadrotor}
+
+Today, quadrotors or unmanned aerial vehicles (UAVs) are widely used in academia research, industrial and civil applications owing to their flexibility and mobility in 3D space. The capability of a single UAV has been increasing rapidly, accompanied by the falling prices and improving performance of the communication, sensing and processing hardwares. Missions like map building, ocean exploration and load transportation, however, expect a more capable multi-UAV system than a single large scale UAV for enhanced scalability and robustness. Promising approaches have been proposed in modeling, control, planning, sensing, design and implementation of a multi-UAV system~\cite{Swarm2018}.
+
+Quadrotor consists of two pairs of counter-rotating motors located at the vertexes of a square frame, generating thrust and torque perpendicular to the frame plane. \textcolor{red}{TODO: Explain how quadrotor moves.}
+
+The allocation of individual tasks, communication, motion planning of each agent in multi-UAV system are then becoming hot topics remain to be discovered.
+
+Control methods have been developed in the past for UAV maneuvers that track moving targets.
+
+This thesis presents the design, control and the implementation of an UAV flocking system with two quadrotors. The hardware configuration and software architecture are studied to satisfy the distributed measurement and distributed control requirements.
+
+We highlight the visibility tracking issue during the motion planing as we use camera as our only sensor.
+
+We propose an integrated vision-based guidance and estimation algorithm to track a aerial moving target with a quadrotor.
+
+The whole problem has been divided into two parts, generation of the optimal trajectory and tracking of the optimal trajectory.
+
+The estimation, guidance, and control algorithms are implemented in flight tests, and it is successfully demonstrated that the aircraft is able to track around amoving target using the proposed vision-based estimation and guidance method.
+
+
+\section{Motivation}
+
+This thesis is inspired by the natural phenomenon of bird flockings that we want to imitate the collective behavior of birds with quadrotors. The simulation of boids, including bird flocking, land animal herding and fish schooling, was first proposed in~\cite{Reynolds1987} on computer animation. Three rules were introduced to depict this aggregate motion:
+\begin{itemize}
+  \item $\mathbf{Separation}$, to repel neighboring flockmates in short range
+  \item $\mathbf{Alignment}$, to match velocity with neighboring flockmates in mid range
+  \item $\mathbf{Cohesion}$, to steer neighboring flockmates in long range
+\end{itemize}
+Unlike today's quadrotor light show which are pre-programmed and controlled by central computer or rely on GPS or motion capture system, the natural bird flocks are self-driven and need few knowledge on their absolute positions. \textcolor{red}{TODO: Add description for centralized control and measurement.} Motivated by this, we want to design a multi-quadrotor system and simulate the motion of bird flocks with distributed control and distributed measurement.
+
+\section{Thesis Outline}
+
+The outline of the thesis is as follows, in Chapter~\ref{preliminaries} related mathematical flocking models and multi-UAV formations are presented. In Chapter~\ref{design} the architecture of the hardware and software are presented. In Chapter~\ref{implementation} the detailed implementation of the trajectory design are introduced. In Chapter~\ref{experiment} the experiment results are shown and concluded in Chapter~\ref{conclusion}.
+
+\newpage
