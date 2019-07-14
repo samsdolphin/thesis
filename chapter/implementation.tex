@@ -53,20 +53,4 @@ and transform (\ref{eq:reminF1}) into a standard QP problem:
 \noindent
 where $T_s = \begin{bmatrix}1\\1+dT\\(1+dT)^2\\(1+dT)^3\\(1+dT)^4\\(1+dT)^5\end{bmatrix}$ and $T_f=\begin{bmatrix}0\\0\\0\\6\\24t\\60t^2\end{bmatrix}$ with $dT=t_0-t_l$. We use $l\in\{x,y,z\}$ to abstract the dimension.
 
-
-\section{A Star Search}
-A star algorithm~\cite{AStar1972} is widely used in path finding and graph travel. On a map with many obstacles, without knowing much about the direction, pathfinding from start point to goal point is time consuming. A star outperforms Dijkstra's algorithm provided an admissible heuristic as a more optimal decision is made at each step. The performance of A star algorithm relies on the definition of its heuristic function, where Manhattan, Euclidean and diagonal distance are usually adopted.
-\begin{equation}\label{eq:a_star}
-f(n)=g(n)+h(n)
-\end{equation}
-
-The definition of our heuristic function is related to 3 parts, visibility, distance and angle. In our algorithm, 4 waypoints from predicted target trajectory are chosen as~\cite{Jeon2019}. The shortest path from current chaser point to target point is selected by searching from different start and end waypoints, iteratively. The visibility score $\Psi(x,x_p)$ is defined as follows:
-
-\begin{equation}\label{eq:2}
-\Psi(x,x_p)=\min\limits_{L(x,x_p)}\phi(x)
-\end{equation}
-
-Where $L(x,x_p)$ represents the line segment and $\phi(x)$ is the distance from $x\in L(x,x_p)$ to closest obstacles $\chi_{obs}$.
-
-
-\section{Octomap Representation}
+\newpage
