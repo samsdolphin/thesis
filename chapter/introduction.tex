@@ -4,7 +4,7 @@ Bird flocking is a natural phenomenon which always appears in group activities l
 
 There are three important criteria to describe a stable flocking system: separation, cohesion and alignment~\cite{Reynolds1987}. Alignment criterion requires each agent to match self's velocity with neighboring flockmates in the mid range, separation criterion requires each agent to repel neighboring flockmates in the short range and cohesion criterion requires each agent to steer neighboring flockmates in the long range. The faster a flock converges from division and the quicker $\psi_{scal}$ (\ref{eq:phi_scal}) gets close to 1, the more robust the system is. Where $N$ is the number of total agents and $v_i$ is a vector denoting the velocity of $ith$ agent in the flock.
 
-\begin{equation}\label{eq:phi_scal}
+\begin{equation}\label{eq:psi_scal}
 \psi_{scal}(t)=\frac{1}{N(N-1)}\sum^N_{i=1}\sum_{j\neq i}\frac{v_i(t)v_j(t)}{|v_i(t)||v_j(t)|}
 \end{equation}
 

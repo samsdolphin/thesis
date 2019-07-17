@@ -1,8 +1,8 @@
 \chapter{Design of Control Model}\label{design}
 
-\section{Proposed Control Law}
+\section{Proposed Control Law}\label{control_law}
 
-Considering a flock of $k$ agents whose behaviors are described by (\ref{eq:proposed_ui}, \ref{eq:proposed_af}) in continuous time with initial positions satisfying $d_0<||x_i(0)-x_j(0)||^2<d_1$ for all $i\neq j$. At every time step $t$, all agents update their states with the information of the relative positions and velocities between themselves and the neighboring agents. Compared with~\cite{CuckerDong2010}, a cohesion term is appended to the $u_i$ for the purpose of faster convergence. We prove that the flock will converge to a common velocity without collision with other agents. The term $\Lambda(v)$ is designed to adjust the internal repulsion and attraction forces from neighboring agents. Examples of $f_0(x), f_1(x)$ are illustrated in Fig.\ref{fig:f0f1}.
+Considering a flock of $k$ agents whose behaviors are described by (\ref{eq:proposed_ui}, \ref{eq:proposed_af}) in continuous time with initial positions satisfying $d_0<||x_i(0)-x_j(0)||^2<d_1$ for all $i\neq j$. At every time step $t$, all agents update their states with the information of the relative positions and velocities between themselves and the neighboring agents. Compared with~\cite{CuckerDong2010}, a cohesion term is appended to the $u_i$ for the purpose of faster convergence. We prove that when $\beta\leq\frac{1}{2}$, the flock will unconditionally converge to a common velocity without collision with other agents. The term $\Lambda(v)$ is designed to adjust the internal repulsion and attraction forces from neighboring agents. Examples of $f_0(x), f_1(x)$ are illustrated in Fig.\ref{fig:f0f1}.
 
 \begin{equation}\label{eq:proposed_ui}
 \begin{aligned}
@@ -107,7 +107,7 @@ From the definition of $f_0$ and $f_1$ and the initial conditions that we have e
 
 \section{Proof of Velocity Convergence}
 
-Here, we show the proof for the case $\beta\leq\frac{1}{2}$, as the proof for $\beta>\frac{1}{2}$ are similar and could be found in~\cite{CuckerDong2010}. From (\ref{eq:dExv}) we could obtain (\ref{eq:Et_E0}, \ref{eq:intE0})
+Here, we show the proof for the case $\beta\leq\frac{1}{2}$, as the proof for $\beta>\frac{1}{2}$ is similar. From (\ref{eq:dExv}) we could obtain (\ref{eq:Et_E0}, \ref{eq:intE0})
 
 \begin{equation}\label{eq:Et_E0}
 E(t)-E(0)\leq-\int_0^t\frac{Hk}{(1+2||x(s)||^2)^{\beta}}||v(s)||ds
