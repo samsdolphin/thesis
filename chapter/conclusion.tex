@@ -1,3 +1,9 @@
 \chapter{Conclusion}\label{conclusion}
 
+In this thesis, a multi-UAV flocking system based on virtual structure method and computer vision is presented. The detailed hardware and software architectures are introduced in the thesis. The monocular camera is used as the only on-board sensor for both state estimation and target recognition.
 
+The multi-UAV flocking system is divided into two parts, the target quadrotor and the chaser quadrotor. Both quadrotors could be controlled by human operator and on-board mini computer depends on the control mode. During flocking, the chaser quadrotor first percept the surrounding environment to distinguish the safety region from obstacles, second recognize and predict target quadrotor's motion, and third generate and follow the smooth trajectory to maintain the flocking.
+
+Simulations, real world experiments and comparisons of the mathematical flocking models and our proposed model have been conducted and discussed, the results of which show our model has met the three requirements of flocking, separation, alignment and cohesion.
+
+Our future work will focus on the flocking of more than two quadrotors in both obstacle-free and cluttered environment, the introduction of communication between neighboring agents and the study of ultra wide band (UWB) method for relative distance measurement. 
