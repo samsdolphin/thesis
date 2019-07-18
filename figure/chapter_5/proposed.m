@@ -1,15 +1,16 @@
 close all;
 N=2;
 dt=0.5;
-step=20;
+step=30;
 d0=1;
 d1=2.25;
 K=1;
 sigma=1;
 beta=0.25;
 theta=2;
+loop=1;
 avg=zeros(1,step+1);
-for t=1:20
+for t=1:loop
     p=zeros(2*N,step+1);
     v=zeros(2*N,step+1);
     a=zeros(2*N,step+1);
@@ -90,14 +91,14 @@ hold off;
 
 g=figure;
 t=1:step+1;
-plot(t,avg/20);
+plot(t,avg/loop);
 
-plot(t,b01/20,'LineWidth',2);
+plot(t,b01/loop,'LineWidth',2);
 hold on
-plot(t,b025/20,'LineWidth',2);
-plot(t,b05/20,'LineWidth',2);
-plot(t,b075/20,'LineWidth',2);
-plot(t,b1/20,'LineWidth',2);
+plot(t,b025/loop,'LineWidth',2);
+plot(t,b05/loop,'LineWidth',2);
+plot(t,b075/loop,'LineWidth',2);
+plot(t,b1/loop,'LineWidth',2);
 axis square;
 axis([0 step+1 0 1])
 xlabel('time steps')

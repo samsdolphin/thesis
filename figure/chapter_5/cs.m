@@ -1,12 +1,13 @@
 close all;
 N=2;
 dt=0.5;
-step=20;
+step=50;
 K=1;
-sigma=1.5;
-beta=1;
+sigma=1;
+beta=0.25;
+loop=1;
 avg=zeros(1,step+1);
-for t=1:20
+for t=1:loop
     p=zeros(2*N,step+1);
     v=zeros(2*N,step+1);
     a=zeros(2*N,step+1);
@@ -74,7 +75,7 @@ hold off;
 
 g=figure;
 t=1:step+1;
-plot(t,avg/20);
+plot(t,avg/loop);
 axis square;
 axis([0 step+1 0 1])
 xlabel('time steps')

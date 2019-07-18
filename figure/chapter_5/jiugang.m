@@ -1,14 +1,15 @@
 close all;
 N=2;
-dt=0.5;
-step=20;
+dt=0.1;
+step=50;
 d0=1;
 K=1;
-sigma=1.5;
-beta=0.1;
+sigma=1;
+beta=0.25;
 theta=2;
+loop=1;
 avg=zeros(1,step+1);
-for t=1:20
+for t=1:loop
     p=zeros(2*N,step+1);
     v=zeros(2*N,step+1);
     a=zeros(2*N,step+1);
@@ -45,11 +46,11 @@ for t=1:20
                     rv=norm(v(2*j-1:2*j,i)-v(2*k-1:2*k,i));
                     if i>j
                         ta=ta + K/(sigma^2+rp^2)^beta * (v(2*k-1:2*k,i)-v(2*j-1:2*j,i));
-                        f0=1/(rp^2-d0)^theta*(p(2*k-1:2*k,i)-p(2*j-1:2*j,i));
+                        f0=1/(rp^2-d0)^theta*(p(2*j-1:2*j,i)-p(2*k-1:2*k,i));
                         lambda = lambda+1/N*rv^2;
                     else
                         ta=ta + K/(sigma^2+rp^2)^beta * (v(2*k-1:2*k,i)-v(2*j-1:2*j,i));
-                        f0=1/(rp^2-d0)^theta*(p(2*k-1:2*k,i)-p(2*j-1:2*j,i));
+                        f0=1/(rp^2-d0)^theta*(p(2*j-1:2*j,i)-p(2*k-1:2*k,i));
                     end
                 end
             end
@@ -86,7 +87,7 @@ hold off;
 
 g=figure;
 t=1:step+1;
-plot(t,avg/20);
+plot(t,avg/loop);
 axis square;
 axis([0 step+1 0 1])
 xlabel('time steps')
