@@ -1,8 +1,8 @@
 clear all;
 close all;
-N=2;
-dt=0.1;
-step=50;
+N=4;
+dt=0.05;
+step=100;
 d0=1;
 d1=2.25;
 K=1;
@@ -45,7 +45,7 @@ if N==2
     p_cs=p_vk;
     p_jiu=p_vk;
     p_us=p_vk;
-    v_vk(:,1)=randi([-100,100],[4,1])/100;
+    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4)];
     v_cs=v_vk;
     v_jiu=v_vk;
     v_us=v_vk;
@@ -54,7 +54,7 @@ elseif N==3
     p_cs=p_vk;
     p_jiu=p_vk;
     p_us=p_vk;
-    v_vk(:,1)=randi([-100,100],[6,1])/100;
+    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(2*pi/4);sin(2*pi/4)];
     v_cs=v_vk;
     v_jiu=v_vk;
     v_us=v_vk;
@@ -63,7 +63,7 @@ elseif N==4
     p_cs=p_vk;
     p_jiu=p_vk;
     p_us=p_vk;
-    v_vk(:,1)=randi([-100,100],[8,1])/100;
+    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(2*pi/4);sin(2*pi/4);cos(pi/4);sin(pi/4)];
     v_cs=v_vk;
     v_jiu=v_vk;
     v_us=v_vk;
@@ -91,15 +91,15 @@ for i=1:N
             rp_jiu=norm(p_jiu(2*j-1:2*j,1)-p_jiu(2*i-1:2*i,1));
             rp_us=norm(p_us(2*j-1:2*j,1)-p_us(2*i-1:2*i,1));
             
-            if rp_vk<sqrt(d1)
+            if rp_vk<sqrt(2*d1)
                 dis_vk(1,1)=dis_vk(1,1)+rp_vk;
                 cnt_vk=cnt_vk+1;
             end
-            if rp_cs<sqrt(d1)
+            if rp_cs<sqrt(2*d1)
                 dis_cs(1,1)=dis_cs(1,1)+rp_cs;
                 cnt_cs=cnt_cs+1;
             end
-            if rp_jiu<sqrt(d1)+0.3
+            if rp_jiu<sqrt(2*d1)
                 dis_jiu(1,1)=dis_jiu(1,1)+rp_jiu;
                 cnt_jiu=cnt_jiu+1;
             end
@@ -149,15 +149,15 @@ for i=1:step
                 rp_us=norm(p_us(2*j-1:2*j,i)-p_us(2*k-1:2*k,i));
                 rv_us=norm(v_us(2*j-1:2*j,i)-v_us(2*k-1:2*k,i));
                 
-                if rp_vk<sqrt(d1)
+                if rp_vk<sqrt(2*d1)
                     d_vk=d_vk+rp_vk;
                     cnt_vk=cnt_vk+1;
                 end
-                if rp_cs<sqrt(d1)
+                if rp_cs<sqrt(2*d1)
                     d_cs=d_cs+rp_cs;
                     cnt_cs=cnt_cs+1;
                 end
-                if rp_jiu<sqrt(d1)
+                if rp_jiu<sqrt(2*d1)
                     d_jiu=d_jiu+rp_jiu;
                     cnt_jiu=cnt_jiu+1;
                 end

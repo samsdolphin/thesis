@@ -8,11 +8,13 @@ In this chapter, the system architecture is presented, including the software an
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=1.0\textwidth]{figure/chapter_2/coordinate.png}
+  \includegraphics[width=1.0\textwidth]{figure/chapter_4/coordinate.png}
   \caption{Coordinate frames of world, quadrotor body and on-board camera}
   \label{fig:coordinate}
 \end{figure}
+
 Three coordinate frames are introduced including world, quadrotor body and its on-board camera as illustrated in Figure~\ref{fig:coordinate}. In Chapter~\ref{implementation}, target quadrotor is captured in camera frame whose position is denoted by $\mathbf{p_c}\in\mathbb{R}^3$. For the simplicity and unity of the calculations, $\mathbf{p_c}$ is transformed back to world frame $\mathbf{p_w}\in\mathbb{R}^3$ by $\tensor*[^w]{\mathfrak{g}}{_c}\in\mathbb{R}^{4\times4}$:
+
 \begin{equation}\label{eq:transform}
 \begin{aligned}
 \begin{bmatrix}\mathbf{p^T_w}&1\end{bmatrix}^T&=\tensor*[^w]{\mathfrak{g}}{_c}\begin{bmatrix}\mathbf{p^T_c}&1\end{bmatrix}^T\\
@@ -21,7 +23,9 @@ Three coordinate frames are introduced including world, quadrotor body and its o
 \tensor*[^b]{\mathbf{R}}{_c}&=\mathbf{R_z}(\psi)\mathbf{R_y}(\theta)\mathbf{R_x}(\phi)
 \end{aligned}
 \end{equation}
+
 where $\mathbf{p_c}$ is first rotated w.r.t $z_c$ by yaw angle $\psi$, then $z_y$ by pitch angle $\theta$, last $z_x$ by roll angle $\phi$ and shifted by $\tensor*[^b]{\mathbf{p}}{_c}$ to $\mathbf{p_b}$ in body frame. Iteratively, $\mathbf{p_c}$ is transformed back to $\mathbf{p_W}$ in world frame (\ref{eq:transform}). It is worthwhile to point out that both $\tensor*[^b]{\mathfrak{g}}{_c}$ and $\tensor*[^w]{\mathfrak{g}}{_b}$ are estimated online by ~\cite{VINS} in Chapter~\ref{hardware}. The $\mathbf{R_z}(\psi)$, $\mathbf{R_y}(\theta)$ and $\mathbf{R_x}(\phi)\in\mathfrak{SE(3)}$ are rotation matrixes.
+
 \begin{equation}\label{eq:rotation}
 \begin{aligned}
 R_z(\psi)&=\begin{bmatrix}cos\psi&-sin\psi&0\\sin\psi&cos\psi&0\\0&0&1\end{bmatrix}\\
@@ -60,18 +64,18 @@ As shown in Figure~\ref{fig:nest}, the control loops are divided into inner atti
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=1.0\textwidth]{figure/chapter_2/chaser_intro.png}
-  \caption{Chaser quadrotor and remote controller panel: (1) Lightbridge 2 receiver; (2) Intel NUC mini computer; (3) 4S LiPo Batter; (4) Intel Realsense camera; (5) DJI snail motor; (6) iPad Live streaming panel; (7) DJI Lightbridge 2 remote controller; (8) DJI N3 flight controller}
+  \includegraphics[width=1.0\textwidth]{figure/chapter_4/chaser_intro.png}
+  \caption{Chaser quadrotor and remote controller panel: (1) Lightbridge 2 receiver; (2) Intel NUC mini computer; (3) Intel Realsense camera; (4) 4S LiPo Batter Case; (5) DJI snail motor; (6) iPad Live streaming panel; (7) DJI Lightbridge 2 remote controller; (8) DJI N3 flight controller.}
   \label{fig:quadrotor_controller}
 \end{figure}
 
 The hardware of UAV platform includes one chaser quadrotor, one target quadrotor and their remote controllers (RCs) as shown in Figure~\ref{fig:quadrotor_controller},~\ref{fig:target_uav}. The quadrotor is first controlled by the RC to take off, then the control authority is switched to on-board mini computer by RC to achieve autonomous driving. The RC has higher control authority than on-board computer that human operator could prevent quadrotor from fatal errors by switching control priority back to RC.
 
-\begin{figure}[ht]
+\begin{figure}[htb]
   \centering
-  \includegraphics[width=1.0\textwidth]{figure/chapter_4/target_uav.png}
-  \caption{target quadrotor. left: back; right: front}
-  \label{fig:target_uav}
+  \subfigure[Back]{\label{fig:back}\includegraphics[width=0.49\textwidth]{figure/chapter_4/leader_back.jpg}}
+  \subfigure[Front]{\label{fig:front}\includegraphics[width=0.49\textwidth]{figure/chapter_4/leader_front.jpg}}
+  \caption{Target UAV.}\label{fig:target_uav}
 \end{figure}
 
 \begin{table}[htb]
@@ -92,7 +96,7 @@ The hardware of UAV platform includes one chaser quadrotor, one target quadrotor
   \hline
   \end{tabular}
   }}
-  \caption{Weight and power consumption of components on the quadrotor}
+  \caption{Weight and power consumption of components on the UAV.}
   \label{tb:weight_power}
 \end{table}
 

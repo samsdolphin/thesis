@@ -22,7 +22,7 @@ u_i(t)&=\underbrace{\sum^k_{j=1}a_{ij}(x)(v_j(t)-v_i(t))}_{\text{velocity-consen
 \end{equation}
 
 \noindent
-where $x_i(t), v_i(t)$ and $u_i(t)$ represent the position, velocity and input of agent $i$ at time step $t$ respectively. The weight function $a_{ij}:\mathbb{E}^k\to[0,\infty)$ qualifies the influence of agent $j$ on agent $i$, which is a function of agents' positions. In~\cite{Vicsek1995}, $a_{ij}$ is equally defined as (\ref{eq:vicsek_aij}), an example of $a_{ij}$ is illustrated in Fig.~\ref{fig:v_aij}. \textcolor{red}{TODO: Add $a_{ij}$ axes.}
+where $x_i(t), v_i(t)$ and $u_i(t)$ represent the position, velocity and input of agent $i$ at time step $t$ respectively. The weight function $a_{ij}:\mathbb{E}^k\to[0,\infty)$ qualifies the influence of agent $j$ on agent $i$, which is a function of agents' positions. In~\cite{Vicsek1995}, $a_{ij}$ is equally defined as (\ref{eq:vicsek_aij}), an example of $a_{ij}$ is illustrated in Fig.~\ref{fig:v_aij}.
 
 \begin{equation}\label{eq:vicsek_aij}
 a_{ij}(x)=\left\{\begin{array}{rcl}
@@ -38,11 +38,9 @@ a_{ij}(x)=\frac{K}{(\sigma^2+||x_i(t)-x_j(t)||^2)^{\beta}}
 \begin{figure}[htb]
   \centering
   \subfigure[$a_{ij}(x)$ with $R=1$ in~\cite{Vicsek1995}]{\label{fig:v_aij}\includegraphics[width=0.48\textwidth]{figure/chapter_2/vicsek_aij.png}}
-  \subfigure[$a_{ij}(x)$ with $\sigma=1$, $K=1$ and $\beta=0.48$ in~\cite{CuckerSmale2007}]{\label{fig:cs_aij}\includegraphics[width=0.48\textwidth]{figure/chapter_2/cs_aij.png}}
+  \subfigure[$a_{ij}(x)$ with $\sigma=1$, $K=1$ and $\beta=0.5$ in~\cite{CuckerSmale2007}]{\label{fig:cs_aij}\includegraphics[width=0.48\textwidth]{figure/chapter_2/cs_aij.png}}
   \caption{Examples of $a_{ij}(s)$ in~\cite{Vicsek1995},~\cite{CuckerSmale2007}}\label{fig:example_v}
 \end{figure}
-
-\textcolor{red}{TODO: Attach experiment reference.}
 
 Based on~\cite{CuckerSmale2007},~\cite{CuckerDong2010} has further proved the cohesion and separation of the flocks given $\beta\leq\frac{1}{2}$, by appending a collision avoidance term to the $u_i(t)$ in (\ref{eq:motion}), as shown in (\ref{eq:dong_aij}). The definition of $a_{ij}$ remains the same as (\ref{eq:cs_aij}). Where $f:(d_0,\infty)\to[0,\infty)$ is any repelling function satisfying: for any $d>d_0$,
 
@@ -66,7 +64,7 @@ An example $f(x)=\frac{1}{(x-d_0)^{\theta}}$ is illustrated in Fig.~\ref{fig:don
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.48\textwidth]{figure/chapter_2/dong_f.png}
-  \caption{$f(x)$ with $d_0=0.8$ and $\theta=1.2$ in ~\cite{CuckerDong2010}}
+  \caption{$f(x)$ with $d_0=1$ and $\theta=1.2$ in ~\cite{CuckerDong2010}}
   \label{fig:dong_f}
 \end{figure}
 
