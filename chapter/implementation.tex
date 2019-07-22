@@ -1,6 +1,6 @@
 \chapter{Implementation on Quadrotors}\label{implementation}
 
-In this chapter, the system architecture is presented, including the software and hardware configurations, specifications of the UAV platform and details of sensors.
+In this chapter, the quadrotor physical model and system architecture is presented, including the software and hardware configurations, specifications of the UAV platform and the details of sensors.
 
 \section{Quadrotor Model}
 
@@ -13,7 +13,7 @@ In this chapter, the system architecture is presented, including the software an
   \label{fig:coordinate}
 \end{figure}
 
-Three coordinate frames are introduced including world, quadrotor body and its on-board camera as illustrated in Figure~\ref{fig:coordinate}. In Chapter~\ref{implementation}, target quadrotor is captured in camera frame whose position is denoted by $\mathbf{p_c}\in\mathbb{R}^3$. For the simplicity and unity of the calculations, $\mathbf{p_c}$ is transformed back to world frame $\mathbf{p_w}\in\mathbb{R}^3$ by $\tensor*[^w]{\mathfrak{g}}{_c}\in\mathbb{R}^{4\times4}$:
+Three coordinate frames are considered in our flocking system including the world, quadrotor body and on-board camera frames, as illustrated in Fig.\ref{fig:coordinate}. In Ch.\ref{tracking}, the target UAV is first captured in camera frame denoted by $\mathbf{p_c}\in\mathbb{R}^3$, then for the simplicity and unity of the calculations, $\mathbf{p_c}$ is transformed back to world frame $\mathbf{p_w}\in\mathbb{R}^3$ by $\tensor*[^w]{\mathfrak{g}}{_c}\in\mathbb{R}^{4\times4}$:
 
 \begin{equation}\label{eq:transform}
 \begin{aligned}
@@ -24,7 +24,8 @@ Three coordinate frames are introduced including world, quadrotor body and its o
 \end{aligned}
 \end{equation}
 
-where $\mathbf{p_c}$ is first rotated w.r.t $z_c$ by yaw angle $\psi$, then $z_y$ by pitch angle $\theta$, last $z_x$ by roll angle $\phi$ and shifted by $\tensor*[^b]{\mathbf{p}}{_c}$ to $\mathbf{p_b}$ in body frame. Iteratively, $\mathbf{p_c}$ is transformed back to $\mathbf{p_W}$ in world frame (\ref{eq:transform}). It is worthwhile to point out that both $\tensor*[^b]{\mathfrak{g}}{_c}$ and $\tensor*[^w]{\mathfrak{g}}{_b}$ are estimated online by ~\cite{VINS} in Chapter~\ref{hardware}. The $\mathbf{R_z}(\psi)$, $\mathbf{R_y}(\theta)$ and $\mathbf{R_x}(\phi)\in\mathfrak{SE(3)}$ are rotation matrixes.
+\noindent
+where $\mathbf{p_c}$ is first rotated w.r.t $z_c$ by yaw angle $\psi$, then $z_y$ by pitch angle $\theta$, last $z_x$ by roll angle $\phi$ and shifted by $\tensor*[^b]{\mathbf{p}}{_c}$ to $\mathbf{p_b}$ in body frame. Iteratively, $\mathbf{p_c}$ is transformed back to $\mathbf{p_W}$ in world frame (\ref{eq:transform}). It is worthwhile to point out that both $\tensor*[^b]{\mathfrak{g}}{_c}$ and $\tensor*[^w]{\mathfrak{g}}{_b}$ are estimated online by the method developed in~\cite{VINS}. The $\mathbf{R_z}(\psi)$, $\mathbf{R_y}(\theta)$ and $\mathbf{R_x}(\phi)\in\mathfrak{SE(3)}$ are rotation matrixes:
 
 \begin{equation}\label{eq:rotation}
 \begin{aligned}
@@ -36,20 +37,26 @@ R_x(\phi)&=\begin{bmatrix}1&0&0\\0&cos\phi&-sin]\phi\\0&sin\phi&cos\phi\end{bmat
 
 \subsection{Quadrotor Dynamics and Kinematics}
 
-The center of mass of quadrotor body in world frame is denoted by $\mathbf{r}\in\mathbb{R}^3$, then from Newton's law we have:
+We denote the center of mass of quadrotor body in world frame by $\mathbf{r}\in\mathbb{R}^3$, then from Newton's law we have:
+
 \begin{equation}\label{eq:newton}
 m\mathbf{\ddot{r}}=\begin{bmatrix}0\\0\\-mg\end{bmatrix}+\tensor*[^w]{\mathbf{R}}{_b}\begin{bmatrix}0\\0\\\sum F_i\end{bmatrix}
 \end{equation}
+
 where $\mathit{m}\in\mathbb{R}$ is the total weight of the quadrotor and $\mathit{F_i}\in\mathbb{R}$ is the lifting force provided by each motor. The components of the angular velocities of quadrotor in its body frame are denoted by $\mathit{p}$, $\mathit{q}$ and $\mathit{r}\in\mathbb{R}$ and are related with $\theta$, $\phi$ and $\psi\in\mathbb{R}$ by:
+
 \begin{equation}\label{eq:pqr}
 \begin{bmatrix}p\\q\\r\end{bmatrix}=\begin{bmatrix}cos\theta&0&-cos\phi sin\theta\\0&1&sin\phi\\sin\theta&0&cos\phi cos\theta\end{bmatrix}\begin{bmatrix}\dot{\phi}\\\dot{\theta}\\\dot{\psi}\end{bmatrix}
 \end{equation}
 
-In addition to force, each motor has also produced moment, $\mathit{M_i}\in\mathbb{R}$, perpendicular to $x_b-x_y$ plane. We denote the length from each motor to the center of mass by $\mathit{L}\in\mathbb{R}$ and the moment of inertia matrix along $x_b-y_b-z_b$ axes by $\mathbf{I}\in\mathbb{R}^{3\times3}$. We then have the following Euler equations:\textcolor{red}{TODO: Modify Euler equations}
+In addition to force, each motor has also produced moment, $\mathit{M_i}\in\mathbb{R}$, perpendicular to $x_b-x_y$ plane. We denote the length from each motor to the center of mass by $\mathit{L}\in\mathbb{R}$ and the moment of inertia matrix along $x_b-y_b-z_b$ axes by $\mathbf{I}\in\mathbb{R}^{3\times3}$. We then have the following Euler equations:
+
 \begin{equation}\label{eq:euler}
 \mathbf{I}\begin{bmatrix}\dot{p}\\\dot{q}\\\dot{r}\end{bmatrix}=\begin{bmatrix}L(F_2-F_4)\\L(F_3-F_1)\\M_1-M_2+M_3-M_4\end{bmatrix}-\begin{bmatrix}p\\q\\r\end{bmatrix}\times
 \mathbf{I}\begin{bmatrix}p\\q\\r\end{bmatrix}
 \end{equation}
+
+As shown in Fig.\ref{fig:nest}, the control loops are divided into inner attitude control and outer position control. With the help of DJI Onboard SDK and owing to the differential flatness property, the state and input could be represented as algebraic functions of four carefully selected flat outputs $[\mathbf{r}^T, \psi]$ and their derivatives~\cite{Snap}. This facilitates the generation of trajectories since any smooth trajectory (with reasonably bounded derivatives) in the space of flat outputs can be followed by the quadrotor. In Ch.\ref{tracking}, the main work of chaser UAV's motion planning goes to the design of the required trajectory.
 
 \begin{figure}[htb]
   \centering
@@ -58,9 +65,9 @@ In addition to force, each motor has also produced moment, $\mathit{M_i}\in\math
   \label{fig:nest}
 \end{figure}
 
-As shown in Figure~\ref{fig:nest}, the control loops are divided into inner attitude control and outer position control. With the help of DJI Onboard SDK and owing to the differential flatness property, the state and input could be represented as algebraic functions of four carefully selected flat outputs $[\mathbf{r}^T, \psi]$ and their derivatives~\cite{Snap}. This facilitates the generation of trajectories since any smooth trajectory (with reasonably bounded derivatives) in the space of flat outputs can be followed by the quadrotor. Thus the main work of quadrotor motion planning goes to the design of the required trajectory.
-
 \section{Hardware architecture}\label{hardware}
+
+The hardware platform of our flocking system includes one follower quadrotor, one leader quadrotor and their remote controllers (RCs) as shown in Fig.\ref{fig:quadrotor_controller} and Fig.\ref{fig:target_uav}. The leader UAV is fully manually controlled and the follower quadrotor is first controlled by the RC to take off, then the control authority is switched to the on-board mini computer and achieve autonomous driving. The RC is designed to have higher control authority than the on-board computer that human operator could prevent quadrotor from fatal errors by switching control priority back to RC.
 
 \begin{figure}[ht]
   \centering
@@ -68,8 +75,6 @@ As shown in Figure~\ref{fig:nest}, the control loops are divided into inner atti
   \caption{Chaser quadrotor and remote controller panel: (1) Lightbridge 2 receiver; (2) Intel NUC mini computer; (3) Intel Realsense camera; (4) 4S LiPo Batter Case; (5) DJI snail motor; (6) iPad Live streaming panel; (7) DJI Lightbridge 2 remote controller; (8) DJI N3 flight controller.}
   \label{fig:quadrotor_controller}
 \end{figure}
-
-The hardware of UAV platform includes one chaser quadrotor, one target quadrotor and their remote controllers (RCs) as shown in Figure~\ref{fig:quadrotor_controller},~\ref{fig:target_uav}. The quadrotor is first controlled by the RC to take off, then the control authority is switched to on-board mini computer by RC to achieve autonomous driving. The RC has higher control authority than on-board computer that human operator could prevent quadrotor from fatal errors by switching control priority back to RC.
 
 \begin{figure}[htb]
   \centering
@@ -96,7 +101,7 @@ The hardware of UAV platform includes one chaser quadrotor, one target quadrotor
   \hline
   \end{tabular}
   }}
-  \caption{Weight and power consumption of components on the UAV.}
+  \caption{Weight and power consumption of components on the follower UAV.}
   \label{tb:weight_power}
 \end{table}
 
@@ -107,9 +112,9 @@ The hardware of UAV platform includes one chaser quadrotor, one target quadrotor
   \label{fig:power_systems}
 \end{figure}
 
-The quadrotor frame consists of the mechanical construction, motors, propellers and the power supply module. Q250 is chosen as the chaser quadrotor frame for its compact size, firm material and the flexibility in maneuvering in cluttered environment. DJI snail BLDC motors and 5 inch 3-blade propellers are mounted for their racing optimized propulsion system and rapid response time. 4S LiPo battery is selected for on-board power supply for its 16.8 V output, 4200 mAh capacity and rechargeable property. The detailed chaser power supply system is illustrated in Figure~\ref{fig:power_systems}. The total weight including the battery is 1.25 kg and the diagonal distance is 25 cm. We use Intel NUC i5 mini computer as our chaser quadrotor main on-board computing resource for both frontend processing and backend optimization. We choose Intel Realsense Depth camera D435i as the forward looking camera for chaser quadrotor's perception and target recognition purposes. It is outfitted with a stereo global shutter camera, with resolution up to 1920x1080 pixels, frame rate up to 90 fps and direct depth map output. More details about on-board components can be found in Table~\ref{tb:weight_power}.
+The quadrotor frame consists of the mechanical construction, motors, propellers and the power supply module. Q250 is chosen as the follower UAV's frame for its compact size, firm material and the flexibility in maneuvering in cluttered environment. DJI snail BLDC motors and 5 inch 3-blade propellers are mounted for their racing optimized propulsion system and rapid response time. 4S LiPo battery is selected for on-board power supply for its 16.8 V output, 4200 mAh capacity and rechargeable property. The detailed follower UAV's on-board power supply system is illustrated in Fig.\ref{fig:power_systems}. The total weight including the battery is 1.12 kg and the diagonal distance is 25 cm. We use Intel NUC i5 mini computer as our follower UAV's main on-board computing resource for both frontend processing and backend optimization. We choose Intel Realsense Depth camera D435i as the forward looking camera for both perception and leader UAV feature recognition. It is outfitted with a stereo global shutter camera, with resolution up to 1920x1080 pixels, frame rate up to 90 fps and direct depth map output. More details about on-board components can be found in Table~\ref{tb:weight_power}.
 
-The overall system stability is more emphasized than flexibility on target quadrotor, where F330 frame with diagonal distance of 33 cm, snail BLDC motors and 7 inch propellers are mounted. The demand for computation and perception capability on target quadrotor is lower than the chaser, as its flight path is either controlled by human operator or pre-defined in its on-board computer. In this scenario, NVIDIA Jetson TX2 and Machine Vision Point Grey monocular camera are mounted respectively. DJI N3 flight controller is selected for both chaser and target quadrotor, due to its high quality built-in IMU sensor and compatibility with DJI Lightbridge 2 for live streaming.
+The overall system stability is more emphasized than flexibility on leader UAV, where F330 frame with diagonal distance of 33 cm, DJI 2312E BLDC motors, 7 inch propellers and the DJI Guidance vision-feedback position system are mounted. The demand for computation and perception capability on target quadrotor is lower than the chaser, as its flight path is controlled by human operator, thus it is not embedded with any external processor. DJI N3 flight controller is selected for both follower and leader UAVs, due to its high quality built-in IMU sensor and compatibility with DJI Lightbridge 2 for live streaming.
 
 \section{Software architecture}\label{software}
 
@@ -120,8 +125,8 @@ The overall system stability is more emphasized than flexibility on target quadr
   \label{fig:software_architecture}
 \end{figure}
 
-The software architecture is shown in Figure~\ref{fig:software_architecture}. On chaser's mini i5 computer, 100 Hz IMU measurements and 10 Hz grey scale image data are fused in the visual-inertial state estimator~\cite{VINS} to obtain UAV self position and orientation. Unique aruco code~\cite{Aruco} is attached on target UAV for relative pose estimation and motion prediction. Using predicted target future motion and current chaser pose, a smooth trajectory for chaser UAV is planned and executed with the attitude and thrust control interface in DJI N3 flight controller. Unlike many existing systems that rely on downward facing camera, ultrasonic sensor or LIDAR for sensing, our system only utilize one forward looking camera. We show through both indoor and outdoor experiments that our minimal sensing setup is sufficient for autonomous tracking of an aerial target.
+The software architecture is shown in Fig.\ref{fig:software_architecture}. On follower's mini i5 computer, 400 Hz IMU measurements and 30 Hz grey scale image data are fused in the visual-inertial state estimator~\cite{VINS} to obtain UAV self position and orientation. Unique aruco code~\cite{Aruco} is attached on target UAV to simplify the relative distance and 3D pose estimation. Unlike many existing systems that rely on downward facing camera (optical flow), ultrasonic sensor (height measurement) or LIDAR for state estimation, our follower UAV only utilize one forward looking camera. We show through both indoor and outdoor experiments that our minimal sensing setup is sufficient for the realization of flocking model.
 
-We have also utilized DJI Lightbridge 2 for remote debugging and monitoring. The Lightbridge 2 transforms mini computer's desktop stream to iPad Pro for visualization, including current chaser's pose and live image processing output. This enables us to remotely manipulate the on-board computer while the quadrotor is in the air.
+We have also utilized DJI Lightbridge 2 for remote debugging and monitoring. The Lightbridge 2 transforms mini computer's desktop stream to iPad Pro for visualization, including current leader UAV's pose and live image processing output. This enables us to remotely manipulate the on-board computer while the quadrotor is in the air.
 
 \newpage

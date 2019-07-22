@@ -1,8 +1,8 @@
 clear all;
 close all;
 N=4;
-dt=0.05;
-step=100;
+dt=0.1;
+step=50;
 d0=1;
 d1=2.25;
 K=1;
@@ -45,6 +45,10 @@ if N==2
     p_cs=p_vk;
     p_jiu=p_vk;
     p_us=p_vk;
+    for i=1:N
+        ag=rand(1)*pi/2+4/pi;
+        v_vk(2*i-1:2*i,1)=[cos(ag);sin(ag)];
+    end
     v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4)];
     v_cs=v_vk;
     v_jiu=v_vk;
@@ -54,7 +58,11 @@ elseif N==3
     p_cs=p_vk;
     p_jiu=p_vk;
     p_us=p_vk;
-    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(2*pi/4);sin(2*pi/4)];
+    for i=1:N
+        ag=rand(1)*pi/2+4/pi;
+        v_vk(2*i-1:2*i,1)=[cos(ag);sin(ag)];
+    end
+    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(-2*pi/4);sin(-2*pi/4)];
     v_cs=v_vk;
     v_jiu=v_vk;
     v_us=v_vk;
@@ -63,13 +71,20 @@ elseif N==4
     p_cs=p_vk;
     p_jiu=p_vk;
     p_us=p_vk;
-    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(2*pi/4);sin(2*pi/4);cos(pi/4);sin(pi/4)];
+    for i=1:N
+        ag=rand(1)*pi/2+4/pi;
+        v_vk(2*i-1:2*i,1)=[cos(ag);sin(ag)];
+    end
+    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(3*pi/4);sin(3*pi/4);cos(pi/4);sin(pi/4)];
     v_cs=v_vk;
     v_jiu=v_vk;
     v_us=v_vk;
 elseif N==5
     p_us(:, 1)=[0; 0; 2; 0; 4; 0; 1; sqrt(3); 1; -sqrt(3)]*0.625;
-    v_us(:,1)=randi([-100,100],[10,1])/100;
+    for i=1:N
+        ag=rand(1)*pi/2+4/pi;
+        v_us(2*i-1:2*i,1)=[cos(ag);sin(ag)];
+    end
 elseif N==10
     p_us(:, 1)=[0; 0; 2; 0; 4; 0; 6; 0; 1; sqrt(3); 1; -sqrt(3); 3; sqrt(3); 3; -sqrt(3); 5; sqrt(3); 5; -sqrt(3)]*0.625;
     v_us(:,1)=randi([-100,100],[20,1])/100;
@@ -231,7 +246,10 @@ for i=1:N-1
     plot(p_us(2*i+1,:),p_us(2*i+2,:),'o');
 end
 hold off;
-axis square;
+axis equal;
+xlabel('x position (m)')
+ylabel('y position (m)')
+title('N=4')
 
 h=figure;
 t=1:step+1;
@@ -242,6 +260,12 @@ plot(t,dis_jiu,'LineWidth',2);
 plot(t,dis_us,'LineWidth',2);
 hold off;
 axis square;
+axis([0 step+1 0 3.5])
+xlabel('time steps')
+ylabel('average relative distance (m)')
+title('N=4')
+line([0,step+1],[d0,d0],'linestyle','--');
+line([0,step+1],[sqrt(d1),sqrt(d1)],'linestyle','--','color','red');
 
 f=figure;
 plot(t,avg_vk,'LineWidth',2);
@@ -250,9 +274,8 @@ plot(t,avg_cs,'LineWidth',2);
 plot(t,avg_jiu,'LineWidth',2);
 plot(t,avg_us,'LineWidth',2);
 hold off;
-
 axis square;
 axis([0 step+1 0 1])
 xlabel('time steps')
-ylabel('average \psi_{scal}')
-title('N=2')
+ylabel('\psi_{scal}')
+title('N=4')

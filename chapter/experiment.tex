@@ -2,13 +2,13 @@
 
 \section{Simulation of Flocking Models}
 
-We first show the influence of $\sigma$ and $\beta$ in (\ref{eq:proposed_ui}) to the convergence of the flock by Fig.\ref{fig:sigma_beta}, where the averaged $\psi_{scal}$ (\ref{eq:psi_scal}) of twenty simulation results are illustrated with three cases. The more $\psi_{scal}$ gets close to 1, the more convergent and aligned the flock is. As shown in the figure that the choice of $\sigma$ has little impact on the convergence rate compared with $\beta$. When $\beta\leq\frac{1}{2}$, the convergence of the whole flock is unconditional which is coincident with our assumption in Ch.~\ref{control_law}. Without explicit statement, all the following simulations use $\sigma=1$ and $\beta=0.25$.
+We first show the influence of $\sigma$ and $\beta$ in (\ref{eq:proposed_ui}) to the convergence of the flock by Fig.\ref{fig:sigma_beta}, where the averaged $\psi_{scal}$ (\ref{eq:psi_scal}) of twenty simulation results are illustrated with three cases. The more $\psi_{scal}$ gets close to 1, the more convergent and aligned the flock is. As shown in the figure that the choice of $\sigma$ has little impact on the convergence rate compared with $\beta$. When $\beta\leq\frac{1}{2}$, the convergence of the whole flock is unconditional which is coincident with our assumption in Ch.~\ref{control_law}. Without explicit statement, all the following simulations use $\sigma=1$ and $\beta=0.25$. We then compute the averaged results of $\psi_{scal}$ and relative distance from twenty simulations as illustrated in Fig.\ref{fig:multiple_agent}. We show that the number of total agents in the flock does not influence the characteristics of cohesion, separation and alignment.
 
 \begin{figure}[H]
   \centering
   \subfigure[Average $\psi_{scal}$ of multiple agents with fixed $\sigma, \beta$]{\label{fig:multiple}\includegraphics[width=0.49\textwidth]{figure/chapter_5/multiple.png}}
   \subfigure[Average distance of multiple agents with fixed $\sigma, \beta$]{\label{fig:distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/distance.png}}
-  \caption{Average $\psi_{scal}$ and relative distance of multiple agents with fixed $\sigma=1$ and $\beta=2$. Their initial velocity are all randomized and nonzero.}\label{fig:multiple_distance}
+  \caption{Average $\psi_{scal}$ and relative distance of multiple agents with fixed $\sigma=1$ and $\beta=0.25$. Their initial velocity are all randomized and nonzero.}\label{fig:multiple_agent}
 \end{figure}
 
 \begin{figure}[H]
@@ -20,13 +20,14 @@ We first show the influence of $\sigma$ and $\beta$ in (\ref{eq:proposed_ui}) to
   \caption{Averaged $\psi_{scal}$ of twenty simulations of two agents w.r.t various $\sigma, \beta$. Their initial velocities are all randomized and nonzero.}\label{fig:sigma_beta}
 \end{figure}
 
-We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010} in Ch.~\ref{flocking} with 2, 3 and 4 agents respectively. The initial position are illustrated in Fig.\ref{fig:simulate_flocking} where the initial velocities are randomized.
+We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010} in Ch.~\ref{flocking} with 2, 3 and 4 agents respectively. The initial position are illustrated in Fig.\ref{fig:simulate_flocking} where the initial velocities are randomized and normalized. The positions of individual agents during the whole simulation are illustrated in Fig.\ref{fig:N_pos} for reference. As illustrated in Fig.\ref{fig:N_scal}, we show that our proposed model converge as fast as those in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010}. Especially, we show that the relative distance between neighboring agents in our proposed model is strictly bounded by the interval $(d_0^{\frac{1}{2}}, d_0^{\frac{1}{2}})$. Suppose certain minimum safety distance exists, such as $d_{safe}=0.8$ in Fig.\ref{fig:N3_dis}, our proposed model could successfully avoided collision with neighboring agents. 
+
 \begin{figure}[H]
   \centering
   \subfigure[Two agents in a shape of straight line]{\label{fig:2_agents}\includegraphics[width=0.32\textwidth]{figure/chapter_5/2_agent.png}}
   \subfigure[Three agents in a shape of equilateral triangle]{\label{fig:2_agents}\includegraphics[width=0.32\textwidth]{figure/chapter_5/3_agent.png}}
   \subfigure[Four agents in a shape of diamond]{\label{fig:2_agents}\includegraphics[width=0.32\textwidth]{figure/chapter_5/4_agent.png}}
-  \caption{Initial position settings of multi-agent flocking simulations in rviz.}\label{fig:simulate_flocking}
+  \caption{Initial position settings of multi-agent flocking simulations in MATLAB.}\label{fig:simulate_flocking}
 \end{figure}
 
 \begin{figure}[H]
@@ -35,7 +36,7 @@ We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerS
   \subfigure[$N=3$ agents]{\label{fig:N3_scal}\includegraphics[width=0.49\textwidth]{figure/chapter_5/N3_scal.png}}
   \quad
   \subfigure[$N=4$ agents]{\label{fig:N4_scal}\includegraphics[width=0.49\textwidth]{figure/chapter_5/N4_scal.png}}
-  \caption{$\psi_{scal}$ with various models. Model 1 from~\cite{Vicsek1995}, model 2 from~\cite{CuckerSmale2007} and model 3 from~\cite{CuckerDong2010}.}\label{fig:N_scal}
+  \caption{Convergence descriptor $\psi_{scal}$ of model 1 (\cite{Vicsek1995}), 2 (\cite{CuckerSmale2007}), 3 (\cite{CuckerDong2010}) and our proposed one.}\label{fig:N_scal}
 \end{figure}
 
 \begin{figure}[H]
@@ -44,12 +45,21 @@ We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerS
   \subfigure[$N=3$ agents.]{\label{fig:N3_dis}\includegraphics[width=0.49\textwidth]{figure/chapter_5/N3_dis.png}}
   \quad
   \subfigure[$N=4$ agents.]{\label{fig:N4_dis}\includegraphics[width=0.49\textwidth]{figure/chapter_5/N4_dis.png}}
-  \caption{Average relative distance from various models. Model 1 from~\cite{Vicsek1995}, model 2 from~\cite{CuckerSmale2007} and model 3 from~\cite{CuckerDong2010}.}\label{fig:N_dis}
+  \caption{Average relative distance between neighboring agents. The blue and red dashed line indicate two boundaries $d_0^{\frac{1}{2}}, d_1^{\frac{1}{2}}$ in our proposed model. Model 1, 2 and 3 are from~\cite{Vicsek1995},\cite{CuckerSmale2007} and \cite{CuckerDong2010} respectively.}\label{fig:N_dis}
 \end{figure}
 
-\section{Comparison with Tracking Algorithm}
+\begin{figure}[H]
+  \centering
+  \subfigure[$N=2$ agents.]{\label{fig:N2_pos}\includegraphics[width=0.49\textwidth]{figure/chapter_5/N2_pos.png}}
+  \subfigure[$N=3$ agents.]{\label{fig:N3_pos}\includegraphics[width=0.49\textwidth]{figure/chapter_5/N3_pos.png}}
+  \quad
+  \subfigure[$N=4$ agents.]{\label{fig:N4_pos}\includegraphics[width=0.49\textwidth]{figure/chapter_5/N4_pos.png}}
+  \caption{Motion simulations with normalized initial velocities whose directions are indicated by corresponding arrows.}\label{fig:N_pos}
+\end{figure}
 
-We have compared the cohesion, separation and alignment performance from our proposed flocking model with those solved by traditional tracking algorithm inspired by~\cite{Chenjing}. In~\ref{fig:rviz}, the pink arrow (10Hz) indicates the heading of the target UAV and the dark green arrows (400Hz) are the poses of the follower UAV. The light green dots are the 3D positions of the target calculated from captured images, a frame of which is shown in Fig.\ref{fig:capture}. The blue curve and the red one are the predicted path and generated trajectory respectively.
+\section{Comparison with Tracking Algorithm}\label{tracking}
+
+We have compared the cohesion, separation and alignment performance from our proposed flocking model with those solved by the traditional tracking algorithm. Inspired by~\cite{Chenjing}, we develop a similar method for the chaser UAV to stay $d_s$ away from the target UAV. The entire procedure consists two parts: $\mathit{I}$, target UAV motion estimation and prediction and $\mathit{II}$, chaser UAV trajectory generation. In~\ref{fig:rviz}, the pink arrow (10Hz) indicates the heading of the target UAV and the dark green arrows (400Hz) are the poses of the follower UAV. The light green dots are the 3D positions of the target calculated from captured images, a frame of which is shown in Fig.\ref{fig:capture}. The blue curve and the red one are the predicted path and generated trajectory respectively. As illustrated in Fig.\ref{fig:track_plot}, the developed algorithm has successfully driven the chaser UAV to track the target UAV, however, it is clearly seen in Fig.\ref{fig:position_plot} that the delay is inevitable.
 
 \begin{figure}[htb]
   \centering
@@ -126,15 +136,15 @@ and transform (\ref{eq:reminF1}) into a standard QP problem:
 \noindent
 where $T_s = \begin{bmatrix}1\\1+dT\\(1+dT)^2\\(1+dT)^3\\(1+dT)^4\\(1+dT)^5\end{bmatrix}$ and $T_f=\begin{bmatrix}0\\0\\0\\6\\24t\\60t^2\end{bmatrix}$ with $dT=t_0-t_l$. We use $l\in\{x,y,z\}$ to abstract the dimension.
 
-\subsection{Performance Analysis}
+\subsection{Tracking Performance}
 
 \begin{figure}[H]
   \centering
   \subfigure[Position profiles of target and chaser UAVs. The blue and red lines are the x and y positions of the target UAV and the yellow and the purple lines are the x and y positions of the chaser UAV.]{\label{fig:position_plot}\includegraphics[width=0.49\textwidth]{figure/chapter_5/position_plot.png}}
-  \subfigure[Relative distance between target and chaser UAVs. The desired shifted distance $d_s=1.5$ while the averaged relative distance $\bar{v}=1.39$.]{\label{fig:distance_plot}\includegraphics[width=0.49\textwidth]{figure/chapter_5/distance_plot.png}}
+  \subfigure[Relative distance between target and chaser UAVs. The desired shifted distance $d_s=1.5$ while the averaged relative distance $\bar{d}=1.39$.]{\label{fig:distance_plot}\includegraphics[width=0.49\textwidth]{figure/chapter_5/distance_plot.png}}
   \quad
   \subfigure[$\psi_{scal}$ of the tracking system.]{\label{fig:scal_plot}\includegraphics[width=0.49\textwidth]{figure/chapter_5/scal_plot.png}}
-  \caption{\textcolor{red}{TODO: Modify $\psi_{scal}$ plot.}}\label{fig:position_distance}
+  \caption{\textcolor{red}{TODO: Modify $\psi_{scal}$ plot.}}\label{fig:track_plot}
 \end{figure}
 
 \section{Realization of Proposed Model}
