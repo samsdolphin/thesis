@@ -20,7 +20,7 @@ We first show the influence of $\sigma$ and $\beta$ in (\ref{eq:proposed_ui}) to
   \caption{Averaged $\psi_{scal}$ of twenty simulations of two agents w.r.t various $\sigma, \beta$. Their initial velocities are all randomized and nonzero.}\label{fig:sigma_beta}
 \end{figure}
 
-We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010} in Ch.~\ref{flocking} with 2, 3 and 4 agents respectively. The initial position are illustrated in Fig.\ref{fig:simulate_flocking} where the initial velocities are randomized and normalized. The positions of individual agents during the whole simulation are illustrated in Fig.\ref{fig:N_pos} for reference. As illustrated in Fig.\ref{fig:N_scal}, we show that our proposed model converge as fast as those in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010}. Especially, we show that the relative distance between neighboring agents in our proposed model is strictly bounded by the interval $(d_0^{\frac{1}{2}}, d_0^{\frac{1}{2}})$. Suppose certain minimum safety distance exists, such as $d_{safe}=0.8$ in Fig.\ref{fig:N3_dis}, our proposed model could successfully avoided collision with neighboring agents. 
+We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010} in Ch.~\ref{flocking} with 2, 3 and 4 agents respectively. The initial position are illustrated in Fig.\ref{fig:simulate_flocking} where the initial velocities are randomized and normalized. The positions of individual agents during the whole simulation are illustrated in Fig.\ref{fig:N_pos} for reference. As illustrated in Fig.\ref{fig:N_scal}, we show that our proposed model converge as fast as those in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010}. Especially, we show that the relative distance between neighboring agents in our proposed model is strictly bounded by the interval $(d_0^{\frac{1}{2}}, d_0^{\frac{1}{2}})$. Suppose certain minimum safety distance exists, such as $d_{safe}=0.8$ in Fig.\ref{fig:N3_dis}, our proposed model could successfully avoided collision with neighboring agents.
 
 \begin{figure}[H]
   \centering
@@ -144,27 +144,50 @@ where $T_s = \begin{bmatrix}1\\1+dT\\(1+dT)^2\\(1+dT)^3\\(1+dT)^4\\(1+dT)^5\end{
   \subfigure[Relative distance between target and chaser UAVs. The desired shifted distance $d_s=1.5$ while the averaged relative distance $\bar{d}=1.39$.]{\label{fig:distance_plot}\includegraphics[width=0.49\textwidth]{figure/chapter_5/distance_plot.png}}
   \quad
   \subfigure[$\psi_{scal}$ of the tracking system.]{\label{fig:scal_plot}\includegraphics[width=0.49\textwidth]{figure/chapter_5/scal_plot.png}}
+  \subfigure[\textcolor{red}{rviz}]{\label{fig:rviz_plot}\includegraphics[width=0.49\textwidth]{figure/chapter_5/scal_plot.png}}
   \caption{\textcolor{red}{TODO: Modify $\psi_{scal}$ plot.}}\label{fig:track_plot}
 \end{figure}
 
 \section{Realization of Proposed Model}
 
-\begin{figure}[H]
+In this section, we demonstrate that our flocking system is able to manipulate in both indoor GPS-denied and outdoor natural environment. All the experiment settings are identical, where the follower UAV takes off first and hovers at desired height, waiting for the leader, then the leader UAV takes off and the control authority of follower switches to autonomous mode to begin flocking. The initial take off position of follower UAV is 1.5 m behind the leader UAV to match the requirement ($d_0<||x_i-x_j||^2<d_1$) in Ch.\ref{control_law}. The maximum acceleration and velocity of follower UAV are set to $a_{max}=2.5 m/s^2$ and $v_{max}=0.5 m/s$ for safety reasons. In each experiment we show their position profile, relative distance, $\psi_{scal}$ plot and their movement path reproduced in rivz. Due to measurement noise and lack of ground truth, spikes appear randomly in all figures. The trend of slope in $\psi_{cal}$ plot, however, is in accordance with that in position plot.
+
+\subsection{Indoor Environment}
+
+We first show the results when the leader UAV moves purely in the directions of x-axis and y-axis as illustrated in Fig.\ref{fig:x_indoor} and Fig.\ref{fig:y_indoor}.
+
+\begin{figure}[htb]
   \centering
   \subfigure[Position profiles of leader and follower UAVs. The yellow and purple lines are the x and y positions of the leader UAV and the blue and the red lines are the x and y positions of the follower UAV.]{\label{fig:x_indoor_position}\includegraphics[width=0.49\textwidth]{figure/chapter_5/x_indoor_position.png}}
   \subfigure[Relative distance between leader and follower UAVs.]{\label{fig:x_indoor_distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/x_indoor_distance.png}}
   \quad
   \subfigure[$\psi_{scal}$]{\label{fig:x_indoor_scal}\includegraphics[width=0.49\textwidth]{figure/chapter_5/x_indoor_scal.png}}
-  \caption{\textcolor{red}{TODO.}}\label{fig:x_indoor}
+  \subfigure[\textcolor{red}{rviz}]{\label{fig:x_indoor_rviz}\includegraphics[width=0.49\textwidth]{figure/chapter_5/x_indoor_scal.png}}
+  \caption{Flocking in x-axis.}\label{fig:x_indoor}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htb]
   \centering
   \subfigure[Position profiles of leader and follower UAVs. The yellow and purple lines are the x and y positions of the leader UAV and the blue and the red lines are the x and y positions of the follower UAV.]{\label{fig:y_indoor_position}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_position.png}}
   \subfigure[Relative distance between leader and follower UAVs.]{\label{fig:y_indoor_distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_distance.png}}
   \quad
   \subfigure[$\psi_{scal}$]{\label{fig:y_indoor_scal}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_scal.png}}
-  \caption{\textcolor{red}{TODO.}}\label{fig:y_indoor}
+  \subfigure[\textcolor{red}{rviz}]{\label{fig:y_indoor_rviz}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_scal.png}}
+  \caption{Flocking in y-axis.}\label{fig:y_indoor}
+\end{figure}
+
+\subsection{Outdoor Environment}
+
+We first show the results when leader UAV moves purely in the directions of x-axis and y-axis as illustrated in Fig.\ref{fig:x_indoor} and Fig.\ref{fig:y_indoor}. The follower UAV could keep moving with the leader UAV, however, due to the measurement noise and the limitation of maximum acceleration of follower UAV, the relative distance and $\psi_{scal}$ have spikes.
+
+\begin{figure}[htb]
+  \centering
+  \subfigure[Position profiles of leader and follower UAVs. The yellow and purple lines are the x and y positions of the leader UAV and the blue and the red lines are the x and y positions of the follower UAV.]{\label{fig:xy_outdoor_position}\includegraphics[width=0.49\textwidth]{figure/chapter_5/xy_outdoor_position.png}}
+  \subfigure[Relative distance between leader and follower UAVs.]{\label{fig:xy_outdoor_distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/xy_outdoor_distance.png}}
+  \quad
+  \subfigure[$\psi_{scal}$]{\label{fig:xy_outdoor_scal}\includegraphics[width=0.49\textwidth]{figure/chapter_5/xy_outdoor_scal.png}}
+  \subfigure[\textcolor{red}{rviz}]{\label{fig:xy_outdoor_rviz}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_scal.png}}
+  \caption{Flocking in xy-plane.}\label{fig:xy_outdoor}
 \end{figure}
 
 \newpage
