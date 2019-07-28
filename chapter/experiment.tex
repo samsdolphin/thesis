@@ -1,15 +1,12 @@
 \chapter{Experiments and Evaluation}\label{experiment}
 
+In this section, we first present the performance of our proposed model in simulations and compare the results with the state-of-art models introduced in Ch.\ref{preliminaries}. We then realize the proposed method wit our UAV flocking system and conduct real world experiments in both indoor and outdoor environments. We have also implemented a tracking algorithm with our system and compare their results in terms of flocking criteria.
+
 \section{Simulation of Flocking Models}
 
-We first show the influence of $\sigma$ and $\beta$ in (\ref{eq:proposed_ui}) to the convergence of the flock by Fig.\ref{fig:sigma_beta}, where the averaged $\psi_{scal}$ (\ref{eq:psi_scal}) of twenty simulation results are illustrated with three cases. The more $\psi_{scal}$ gets close to 1, the more convergent and aligned the flock is. As shown in the figure that the choice of $\sigma$ has little impact on the convergence rate compared with $\beta$. When $\beta\leq\frac{1}{2}$, the convergence of the whole flock is unconditional which is coincident with our assumption in Ch.~\ref{control_law}. Without explicit statement, all the following simulations use $\sigma=1$ and $\beta=0.25$. We then compute the averaged results of $\psi_{scal}$ and relative distance from twenty simulations as illustrated in Fig.\ref{fig:multiple_agent}. We show that the number of total agents in the flock does not influence the characteristics of cohesion, separation and alignment.
+We first show the influence of $\sigma$ and $\beta$ in (\ref{eq:proposed_ui}) to the convergence of the flock in Fig.\ref{fig:sigma_beta}, where the averaged $\psi_{scal}$ (\ref{eq:psi_scal}) of twenty simulation results are illustrated with three cases. The more $\psi_{scal}$ gets close to 1, the more convergent and aligned the flock is. As shown in the figure that the choice of $\sigma$ has little impact on the convergence rate compared with $\beta$. When $\beta\leq\frac{1}{2}$, the convergence of the whole flock is unconditional which is coincident with our assumption in Ch.~\ref{control_law}. We choose $\sigma=1$ and $\beta=0.25$ for all the following simulations and experiments. We compute the averaged results of $\psi_{scal}$ and relative distance from twenty simulations and plot them in Fig.\ref{fig:multiple_agent}. We show that the cohesion, separation and alignment criteria still hold for our proposed model regardless of the number of total agents in the flock.
 
-\begin{figure}[H]
-  \centering
-  \subfigure[Average $\psi_{scal}$ of multiple agents with fixed $\sigma, \beta$]{\label{fig:multiple}\includegraphics[width=0.49\textwidth]{figure/chapter_5/multiple.png}}
-  \subfigure[Average distance of multiple agents with fixed $\sigma, \beta$]{\label{fig:distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/distance.png}}
-  \caption{Average $\psi_{scal}$ and relative distance of multiple agents with fixed $\sigma=1$ and $\beta=0.25$. Their initial velocity are all randomized and nonzero.}\label{fig:multiple_agent}
-\end{figure}
+We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010} in Ch.~\ref{flocking} with 2, 3 and 4 agents respectively. The initial position are illustrated in Fig.\ref{fig:simulate_flocking} where the initial velocities are randomized and normalized. The positions of individual agents during the whole simulation are illustrated in Fig.\ref{fig:N_pos} for reference. In Fig.\ref{fig:N_scal}, we show that our proposed model converge as fast as those in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010}. Especially, we show that the relative distance between neighboring agents in our proposed model is strictly bounded by the interval $(d_0^{\frac{1}{2}}, d_0^{\frac{1}{2}})$. Suppose certain minimum safety distance exists, such as $d_{safe}=0.8$ in Fig.\ref{fig:N3_dis}, our proposed model could successfully avoided collision with neighboring agents.
 
 \begin{figure}[H]
   \centering
@@ -20,7 +17,12 @@ We first show the influence of $\sigma$ and $\beta$ in (\ref{eq:proposed_ui}) to
   \caption{Averaged $\psi_{scal}$ of twenty simulations of two agents w.r.t various $\sigma, \beta$. Their initial velocities are all randomized and nonzero.}\label{fig:sigma_beta}
 \end{figure}
 
-We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010} in Ch.~\ref{flocking} with 2, 3 and 4 agents respectively. The initial position are illustrated in Fig.\ref{fig:simulate_flocking} where the initial velocities are randomized and normalized. The positions of individual agents during the whole simulation are illustrated in Fig.\ref{fig:N_pos} for reference. As illustrated in Fig.\ref{fig:N_scal}, we show that our proposed model converge as fast as those in~\cite{Vicsek1995,CuckerSmale2007,CuckerDong2010}. Especially, we show that the relative distance between neighboring agents in our proposed model is strictly bounded by the interval $(d_0^{\frac{1}{2}}, d_0^{\frac{1}{2}})$. Suppose certain minimum safety distance exists, such as $d_{safe}=0.8$ in Fig.\ref{fig:N3_dis}, our proposed model could successfully avoided collision with neighboring agents.
+\begin{figure}[htb]
+  \centering
+  \subfigure[Average $\psi_{scal}$ of multiple agents with fixed $\sigma, \beta$]{\label{fig:multiple}\includegraphics[width=0.49\textwidth]{figure/chapter_5/multiple.png}}
+  \subfigure[Average distance of multiple agents with fixed $\sigma, \beta$]{\label{fig:distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/distance.png}}
+  \caption{Average $\psi_{scal}$ and relative distance of multiple agents with fixed $\sigma=1$ and $\beta=0.25$. Their initial velocity are all randomized and nonzero.}\label{fig:multiple_agent}
+\end{figure}
 
 \begin{figure}[H]
   \centering
@@ -45,7 +47,7 @@ We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerS
   \subfigure[$N=3$ agents.]{\label{fig:N3_dis}\includegraphics[width=0.49\textwidth]{figure/chapter_5/N3_dis.png}}
   \quad
   \subfigure[$N=4$ agents.]{\label{fig:N4_dis}\includegraphics[width=0.49\textwidth]{figure/chapter_5/N4_dis.png}}
-  \caption{Average relative distance between neighboring agents. The blue and red dashed line indicate two boundaries $d_0^{\frac{1}{2}}, d_1^{\frac{1}{2}}$ in our proposed model. Model 1, 2 and 3 are from~\cite{Vicsek1995},\cite{CuckerSmale2007} and \cite{CuckerDong2010} respectively.}\label{fig:N_dis}
+  \caption{Average relative distance between neighboring agents. The blue and red dashed line indicate two boundaries $(d_0^{\frac{1}{2}}, d_1^{\frac{1}{2}})$ in our proposed model. Model 1, 2 and 3 are from~\cite{Vicsek1995},\cite{CuckerSmale2007} and \cite{CuckerDong2010} respectively.}\label{fig:N_dis}
 \end{figure}
 
 \begin{figure}[H]
@@ -59,9 +61,9 @@ We compare our proposed flocking model with the ones in~\cite{Vicsek1995,CuckerS
 
 \section{Comparison with Tracking Algorithm}\label{tracking}
 
-We have compared the cohesion, separation and alignment performance from our proposed flocking model with those solved by the traditional tracking algorithm. Inspired by~\cite{Chenjing}, we develop a similar method for the chaser UAV to stay $d_s$ away from the target UAV. The entire procedure consists two parts: $\mathit{I}$, target UAV motion estimation and prediction and $\mathit{II}$, chaser UAV trajectory generation. In~\ref{fig:rviz}, the pink arrow (10Hz) indicates the heading of the target UAV and the dark green arrows (400Hz) are the poses of the follower UAV. The light green dots are the 3D positions of the target calculated from captured images, a frame of which is shown in Fig.\ref{fig:capture}. The blue curve and the red one are the predicted path and generated trajectory respectively. As illustrated in Fig.\ref{fig:track_plot}, the developed algorithm has successfully driven the chaser UAV to track the target UAV, however, it is clearly seen in Fig.\ref{fig:position_plot} that the delay is inevitable.
+Inspired by~\cite{Chenjing}, we have developed a similar method for the chaser UAV to stay $d_s$ away from the target UAV. The entire procedure consists two parts: $(\mathit{I})$ target UAV motion estimation and prediction and $(\mathit{II})$ chaser UAV trajectory generation. In~\ref{fig:rviz}, the pink arrow (10 Hz) indicates the heading of the target UAV and the dark green arrows (400 Hz) are the poses of the follower UAV. The light green dots are the 3D positions of the target calculated from captured images, a frame of which is shown in Fig.\ref{fig:capture}. The blue curve and the red one are the predicted path and generated trajectory respectively. As illustrated in Fig.\ref{fig:track_plot}, the developed algorithm has successfully driven the chaser UAV to track the target UAV, however, it is clearly seen in Fig.\ref{fig:position_plot} that the delay is inevitable.
 
-\begin{figure}[htb]
+\begin{figure}[H]
   \centering
   \subfigure[Target motion estimation, prediction and chaser trajectory generation visualized on rviz with data from rosbag.]{\label{fig:rviz}\includegraphics[width=0.49\textwidth]{figure/chapter_5/rviz.png}}
   \subfigure[Image captured from chaser's on-board camera. Green square indicates the recognized aruco code carried on target's UAV.]{\label{fig:capture}\includegraphics[width=0.49\textwidth]{figure/chapter_5/capture.png}}
@@ -150,16 +152,16 @@ where $T_s = \begin{bmatrix}1\\1+dT\\(1+dT)^2\\(1+dT)^3\\(1+dT)^4\\(1+dT)^5\end{
 
 \section{Realization of Proposed Model}
 
-In this section, we demonstrate that our flocking system is able to manipulate in both indoor GPS-denied and outdoor natural environment. All the experiment settings are identical, where the follower UAV takes off first and hovers at desired height, waiting for the leader, then the leader UAV takes off and the control authority of follower switches to autonomous mode to begin flocking. The initial take off position of follower UAV is 1.5 m behind the leader UAV to match the requirement ($d_0<||x_i-x_j||^2<d_1$) in Ch.\ref{control_law}. The maximum acceleration and velocity of follower UAV are set to $a_{max}=2.5 m/s^2$ and $v_{max}=0.5 m/s$ for safety reasons. In each experiment we show their position profile, relative distance, $\psi_{scal}$ plot and their movement path reproduced in rivz. Due to measurement noise and lack of ground truth, spikes appear randomly in all figures. The trend of slope in $\psi_{cal}$ plot, however, is in accordance with that in position plot.
+In this section, we demonstrate that our flocking system is able to operate in both indoor and outdoor GPS-denied environment. All the experiment settings are identical, where the follower UAV takes off first and hovers at desired height, waiting for the leader, then the leader UAV takes off and the control authority of follower switches to autonomous mode to begin flocking. The desired $u_i$ is updated when a newer photo comes in and in each time interval (roughly 0.1 s) the latest $u_i$ is being executed.The initial take off position of follower UAV is 1.5 m behind the leader UAV to match the requirement ($d_0<||x_i-x_j||^2<d_1$) with $d_0=1, d_1=6$ in Ch.\ref{control_law}. The maximum acceleration and velocity of follower UAV are set to $a_{max}=2.5 m/s^2$ and $v_{max}=0.5 m/s$ for safety reasons. In each experiment we show their position profile, relative distance, $\psi_{scal}$ plot and their movement path reproduced in rivz. Due to measurement noise, light condition and lack of ground truth, spikes appear randomly in all figures. We have shown that the trend of slope in $\psi_{cal}$ plot is in accordance with that in position plot, the follower UAV is able stay flocking with the leader and the reaction of follower is rapid.
 
 \subsection{Indoor Environment}
 
-We first show the results when the leader UAV moves purely in the directions of x-axis (positive pointing forward) and y-axis (positive pointing left) as illustrated in Fig.\ref{fig:x_indoor} and Fig.\ref{fig:y_indoor}.
+We have conducted two experiments in the indoor environment. We first let the leader UAV moves purely along the x-axis (positive pointing forward) and then y-axis (positive pointing left), their results are illustrated in Fig.\ref{fig:x_indoor} and Fig.\ref{fig:y_indoor}. Noted that $\psi_{scal}$ plot is calculated with the data all obtained from follower UAV.
 
 \begin{figure}[htb]
   \centering
   \subfigure[Position profiles of leader and follower UAVs. The yellow and purple lines are the x and y positions of the leader UAV and the blue and the red lines are the x and y positions of the follower UAV.]{\label{fig:x_indoor_position}\includegraphics[width=0.49\textwidth]{figure/chapter_5/x_indoor_position.png}}
-  \subfigure[Relative distance between leader and follower UAVs.]{\label{fig:x_indoor_distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/x_indoor_distance.png}}
+  \subfigure[Relative distance between leader and follower UAVs in x axis.]{\label{fig:x_indoor_distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/x_indoor_distance.png}}
   \quad
   \subfigure[$\psi_{scal}$]{\label{fig:x_indoor_scal}\includegraphics[width=0.49\textwidth]{figure/chapter_5/x_indoor_scal.png}}
   \subfigure[Movement path reproduced in rviz.]{\label{fig:x_indoor_rviz}\includegraphics[width=0.49\textwidth]{figure/chapter_5/x_indoor_rviz.png}}
@@ -169,7 +171,7 @@ We first show the results when the leader UAV moves purely in the directions of 
 \begin{figure}[htb]
   \centering
   \subfigure[Position profiles of leader and follower UAVs. The yellow and purple lines are the x and y positions of the leader UAV and the blue and the red lines are the x and y positions of the follower UAV.]{\label{fig:y_indoor_position}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_position.png}}
-  \subfigure[Relative distance between leader and follower UAVs.]{\label{fig:y_indoor_distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_distance.png}}
+  \subfigure[Relative distance between leader and follower UAVs in y axis.]{\label{fig:y_indoor_distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_distance.png}}
   \quad
   \subfigure[$\psi_{scal}$]{\label{fig:y_indoor_scal}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_scal.png}}
   \subfigure[Movement path reproduced in rviz.]{\label{fig:y_indoor_rviz}\includegraphics[width=0.49\textwidth]{figure/chapter_5/y_indoor_rviz.png}}
@@ -178,12 +180,12 @@ We first show the results when the leader UAV moves purely in the directions of 
 
 \subsection{Outdoor Environment}
 
-We first show the results when leader UAV moves purely in the directions of x-axis and y-axis as illustrated in Fig.\ref{fig:x_indoor} and Fig.\ref{fig:y_indoor}. The follower UAV could keep moving with the leader UAV, however, due to the measurement noise and the limitation of maximum acceleration of follower UAV, the relative distance and $\psi_{scal}$ have spikes.
+In the outdoor environment, we let the leader UAV moves in the xy-plane. Due to the outdoor wind condition that the follower UAV has deviated a little from desired position, moreover, the relative distance between two UAVs is kept within the desired boundary.
 
 \begin{figure}[htb]
   \centering
   \subfigure[Position profiles of leader and follower UAVs. The yellow and purple lines are the x and y positions of the leader UAV and the blue and the red lines are the x and y positions of the follower UAV.]{\label{fig:xy_outdoor_position}\includegraphics[width=0.49\textwidth]{figure/chapter_5/xy_outdoor_position.png}}
-  \subfigure[Relative distance between leader and follower UAVs.]{\label{fig:xy_outdoor_distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/xy_outdoor_distance.png}}
+  \subfigure[Relative distance between leader and follower UAVs. The light blue and red dashed line indicate the $d_0^{\frac{1}{2}}, d_1^{\frac{1}{2}}$ respectively. ]{\label{fig:xy_outdoor_distance}\includegraphics[width=0.49\textwidth]{figure/chapter_5/xy_outdoor_distance.png}}
   \quad
   \subfigure[$\psi_{scal}$]{\label{fig:xy_outdoor_scal}\includegraphics[width=0.49\textwidth]{figure/chapter_5/xy_outdoor_scal.png}}
   \subfigure[Movement path reproduced in rviz.]{\label{fig:xy_outdoor_rviz}\includegraphics[width=0.49\textwidth]{figure/chapter_5/xy_outdoor_rviz.png}}

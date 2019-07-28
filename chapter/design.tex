@@ -2,7 +2,7 @@
 
 \section{Proposed Control Law}\label{control_law}
 
-Considering a flock of $k$ agents whose behaviors are described by (\ref{eq:proposed_ui}, \ref{eq:proposed_af}) in continuous time with initial positions satisfying $d_0<||x_i(0)-x_j(0)||^2<d_1$ for all $i\neq j$. At every time step $t$, all agents update their states with the information of the relative positions and velocities between themselves and the neighboring agents. Compared with~\cite{CuckerDong2010}, a cohesion term is appended to the $u_i$ for the purpose of faster convergence. We prove that when $\beta\leq\frac{1}{2}$, the flock will unconditionally converge to a common velocity without collision with other agents. The term $\Lambda(v)$ is designed to adjust the internal repulsion and attraction forces from neighboring agents. Examples of $f_0(x), f_1(x)$ are illustrated in Fig.\ref{fig:f0f1}.
+Considering a flock of $k$ agents whose behaviors are described by (\ref{eq:proposed_ui}, \ref{eq:proposed_af}) in continuous time with initial positions satisfying $d_0<||x_i(0)-x_j(0)||^2<d_1$ for all $i\neq j$. At every time step $t$, all agents update their states with the information of the relative positions and velocities between themselves and the neighboring agents. Compared with~\cite{CuckerDong2010}, a cohesion term is appended to the $u_i$ for the purpose of faster convergence and a more compact cohesion. We prove that when $\beta\leq\frac{1}{2}$, the flock will unconditionally converge to a common velocity without collision with other agents. The term $\Lambda(v)$ is designed to adjust the internal repulsion and attraction forces from neighboring agents. Examples of $f_0(x), f_1(x)$ are illustrated in Fig.\ref{fig:f0f1}.
 
 \begin{equation}\label{eq:proposed_ui}
 \begin{aligned}
@@ -46,8 +46,6 @@ where $\mathbf{x}=(x_1, x_2, \dots, x_k)^T$ and $\mathbf{v}=(v_1, v_2, \dots, v_
 
 Let $\{\bigtriangleup={(u, u, \dots, u)|u\in\mathbb{E}}\}$ be the diagonal of $\mathbb{E}^K$, and $\bigtriangleup^{\perp}$ be the orthogonal complement of $\bigtriangleup$ in $\mathbb{E}^K$. Then we could decompose every element $e\in\mathbb{E}^K=e_{\bigtriangleup}+e^{\perp}$ with $e_{\bigtriangleup}\in\bigtriangleup$ and $e^{\perp}\in\bigtriangleup^{\perp}$. We then decompose $\mathbf{v}=\mathbf{v_{\bigtriangleup}+v^{\perp}}$ where $\mathbf{v_{\bigtriangleup}}=(\bar{v}, \bar{v}, \dots, \bar{v})^T$ and $\mathbf{v^{\perp}}=(v_1-\bar{v}, \dots, v_k-\bar{v})$. $\bar{v}$ is the average velocity of all $k$ agents. We show that $<\mathbf{v_{\bigtriangleup}}, \mathbf{v^{\perp}}>=\sum_{i=1}^k<\bar{v},v_i-\bar{v}>=<\bar{v},\sum_{i=1}^k(v_i-\bar{v})>=0$.
 
-\textcolor{red}{TODO: Diagonal needs double check.}
-
 $\mathbf{Lemma 1}$: For any solution $(\mathbf{x}(t), \mathbf{v}(t))$ of (\ref{eq:continuous}), we have $\frac{d}{dt}\mathbf{v}_{\bigtriangleup}=0$.
 
 From Lemma 1, we know that $\mathbf{v_{\bigtriangleup}}$ is constant with $t$ and $a_{ij}(x)=a_{ij}(x^{\perp})$. Thus in the following paragraphs, we use $x$ and $v$ to denote $x^{\perp}$ and $v^{\perp}$ respectively. The system in (\ref{eq:continuous}) then becomes the following
@@ -58,8 +56,6 @@ From Lemma 1, we know that $\mathbf{v_{\bigtriangleup}}$ is constant with $t$ an
 \mathbf{\dot{v}}&=-L_x\mathbf{v}+||v||L_f\mathbf{x}\\
 \end{aligned}
 \end{equation}
-
-\textcolor{red}{TODO: $||v||$ needs double check.}
 
 Define the function $E: \mathbb{E}^k\times\mathbb{E}^k\to(0,\infty)$ by (\ref{eq:Exv}), where $\delta$ is an infinitesimal positive number.
 
