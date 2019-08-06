@@ -2,27 +2,23 @@
 
 \section{Neighbors within Radius $r$}\label{flocking}
 
-Bird flocking or distributed behavior model was first studied in~\cite{Reynolds1987} to animate the aggregate motion in computer simulation. An evaluation metric towards three aspects, separation, cohesion and alignment were also introduced. Based on this and observations,~\cite{Vicsek1995} has proposed a discrete-time model a with novel type of dynamics (\ref{eq:vicsek}) and discussed the relationship between the coherence of flocking and the density of particles. In this model, each particle has a constant velocity, while its direction is determined by ${\langle\theta(t)\rangle}_r$, which is the average direction of the neighboring particles within radius $r$, with $\Delta\theta$ representing the random noise.
+Bird flocking or distributed behavior model was first studied in~\cite{Reynolds1987} to animate the aggregate motion in computer simulation. An evaluation metric towards three aspects, separation, cohesion and alignment were also introduced. Based on this and observations,~\cite{Vicsek1995} has proposed a discrete-time model (\ref{eq:vicsek}) and discussed the relationship between the coherence of flocking and the density of particles. In this model, each particle has a constant velocity, while its direction is determined by ${\langle\theta(t)\rangle}_r$, which is the average direction of the neighboring particles within radius $r$, with $\Delta\theta$ representing the random noise.
 
 \begin{equation}\label{eq:vicsek}
 \begin{aligned}
-x_i(t+1)&=x_i(t)+v_i(t)\Delta t\\
-\theta(t+1)&={\langle\theta(t)\rangle}_r+\Delta\theta
+x_i(t+\Delta t)&=x_i(t)+v_i(t)\Delta t\\
+\theta(t+\Delta t)&={\langle\theta(t)\rangle}_r+\Delta\theta
 \end{aligned}
 \end{equation}
 
-In natural flocking, however, the velocity of each bird is various that (\ref{eq:vicsek}) can not be simply applied. Nor the cohesion and collision avoidance criteria can be promised.~\cite{CuckerSmale2007} has proposed a control law (\ref{eq:cs_aij}, \ref{fig:cs_aij}) for both discrete-time (\ref{eq:motion}) and continuous-time cases, where with given condition, the convergence of the flock to a common velocity is guaranteed.
+In natural flocking, however, the velocity of each bird is various that (\ref{eq:vicsek}) can not be simply applied. Nor the cohesion and collision avoidance criteria can be promised.~\cite{CuckerSmale2007} has proposed a control law for both discrete-time (\ref{eq:motion}, \ref{eq:cs_aij}, \ref{fig:cs_aij}) and continuous-time cases, where with given condition, the convergence of the flock to a common velocity is guaranteed. We identify the set of $N$ agents as $V=\{1,...,N\}$.
 
 \begin{equation}\label{eq:motion}
-\begin{aligned}
-x_i(t+1)&=x_i(t)+v_i(t)\Delta t\\
-v_i(t+1)&=v_i(t)+u_i(t)\Delta t\\
-u_i(t)&=\underbrace{\sum^k_{j=1}a_{ij}(x)(v_j(t)-v_i(t))}_{\text{velocity-consensus term}}-\underbrace{\bigtriangledown_{x_i}V_i}_{\text{gradient-based term}}
-\end{aligned}
+\ddot{x}_i(t)=\underbrace{\sum^k_{j=1}a_{ij}(x)(v_j-v_i)}_{\text{velocity-consensus term}}-\underbrace{\bigtriangledown_{x_i}V_i}_{\text{gradient-based term}}
 \end{equation}
 
 \noindent
-where $x_i(t), v_i(t)$ and $u_i(t)$ represent the position, velocity and input of agent $i$ at time step $t$ respectively. The weight function $a_{ij}:\mathbb{E}^k\to[0,\infty)$ qualifies the influence of agent $j$ on agent $i$, which is a function of agents' positions. In~\cite{Vicsek1995}, $a_{ij}$ is equally defined as (\ref{eq:vicsek_aij}), an example of $a_{ij}$ is illustrated in Fig.~\ref{fig:v_aij}.
+$x_i, v_i$ and $u_i$ represent the position, velocity and input of agent $i$ at time $t$ respectively. Unless otherwise noted, we assume agents are at distinct positions, $x_i(0)\neq x_j(0)$ for $i, j\in V$. The weight function $a_{ij}:\mathbb{E}^k\to[0,\infty)$ qualifies the influence of agent $j$ on agent $i$, which is a function of agents' positions. In~\cite{Vicsek1995}, $a_{ij}$ is equally defined as (\ref{eq:vicsek_aij}), an example of $a_{ij}$ is illustrated in Fig.~\ref{fig:v_aij}.
 
 \begin{equation}\label{eq:vicsek_aij}
 a_{ij}(x)=\left\{\begin{array}{rcl}
@@ -42,20 +38,12 @@ a_{ij}(x)=\frac{K}{(\sigma^2+||x_i(t)-x_j(t)||^2)^{\beta}}
   \caption{Examples of $a_{ij}(s)$ in~\cite{Vicsek1995},~\cite{CuckerSmale2007}}\label{fig:example_v}
 \end{figure}
 
-Based on~\cite{CuckerSmale2007},~\cite{CuckerDong2010} has further proved the cohesion and separation of the flocks given $\beta\leq\frac{1}{2}$, by appending a collision avoidance term to the $u_i(t)$ in (\ref{eq:motion}), as shown in (\ref{eq:dong_aij}). The definition of $a_{ij}$ remains the same as (\ref{eq:cs_aij}). Where $f:(d_0,\infty)\to[0,\infty)$ is any repelling function satisfying: for any $d>d_0$,
+Based on~\cite{CuckerSmale2007},~\cite{CuckerDong2010} has further proved the cohesion and separation of the flocks given $\beta\leq\frac{1}{2}$, by appending a collision avoidance term to the $u_i(t)$ in (\ref{eq:motion}), as shown in (\ref{eq:dong_aij}). The definition of $a_{ij}$ remains the same as (\ref{eq:cs_aij}). Where $f:(d_0,\infty)\to[0,\infty)$ is any repelling function satisfying: for any $d>d_0$, $\int_{d_0}^d f(x)dx=\infty$ and $\int_d^{\infty} f(x)dx<\infty$.
 
 \begin{equation}\label{eq:dong_aij}
 \begin{aligned}
-\dot{\mathbf{x_i}}(t)&=v_i(t)\\
-\dot{\mathbf{v_i}}(t)&=\sum^k_{j=1}a_{ij}(x)(v_j(t)-v_i(t))+\Lambda(v)\underbrace{\sum_{j\neq i}f(||x_i(t)-x_j(t)||^2)(x_i(t)-x_j(t))}_{\text{collision-avoidance term}}\\
+\ddot{x}_i(t)&=\sum^k_{j=1}a_{ij}(x)(v_j(t)-v_i(t))+\Lambda(v)\underbrace{\sum_{j\neq i}f(||x_i(t)-x_j(t)||^2)(x_i(t)-x_j(t))}_{\text{collision-avoidance term}}\\
 \Lambda(v)&=(\frac{1}{k}\sum_{i>j}||v_i(t)-v_j(t)||^2)^{\frac{1}{2}}
-\end{aligned}
-\end{equation}
-
-\begin{equation}\label{eq:dong_f}
-\begin{aligned}
-\int_{d_0}^d f(x)dx&=\infty\\
-\int_d^{\infty} f(x)dx&<\infty
 \end{aligned}
 \end{equation}
 
@@ -67,6 +55,18 @@ An example $f(x)=\frac{1}{(x-d_0)^{\theta}}$ is illustrated in Fig.~\ref{fig:don
   \caption{$f(x)$ with $d_0=1$ and $\theta=1.2$ in ~\cite{CuckerDong2010}}
   \label{fig:dong_f}
 \end{figure}
+
+Gradient-based control laws have also been proposed in~\cite{Bearing2016}, where only relative bearing measurements $\beta_{ij}$ are necessary to congregate the entire agents to the desired formation $\mathbf{x_g}$.
+
+\begin{equation}\label{eq:bearing}
+\dot{\mathbf{x}}(t)=-\text{grad}(\underbrace{\alpha_b\sum_{(i,j)\in E_b}d_{ij}f_b(c_{ij})}_{\text{bearing measurement}}+\underbrace{\alpha_d\sum_{(i,j)\in E_d}f_d(q_{ij})}_{\text{distance measurement}})
+\end{equation}
+
+A free-flocking model consisting of gradient-based and consensus terms has been proposed in~\cite{Saber2004}, where $\phi(\cdot)$ is a potential function, $n_{ij}$ is a vector along the line connecting $x_i$ and $x_j$ and $a_{ij}$ denotes corresponding adjacency matrix. When the number of agents is greater than 10, however, fragmentation may occur that a collective navigational feedback pair $(x_r, v_r)$ has to be introduced.
+
+\begin{equation}\label{eq:saber}
+\ddot{x}_i(t)=\underbrace{\sum_{j\in V}\phi(||x_j-x_i||_{\sigma})n_{ij}}_{\text{gradient-based term}}+\underbrace{\sum_{j\in V}a_{ij}(x)(v_j-v_i)}_{\text{consensus term}}
+\end{equation}
 
 \section{$K$ Nearest Neighbors}
 
