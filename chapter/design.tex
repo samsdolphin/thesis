@@ -8,16 +8,16 @@ Considering a flock of $k$ agents whose behaviors are described by (\ref{eq:prop
 \begin{aligned}
 \dot{x_i}(t)&=v_i(t)\\
 \dot{v_i}(t)&=u_i(t)\\
-u_i(t)&=\underbrace{\sum^k_{j=1}a_{ij}(x)(v_j(t)-v_i(t))}_{\text{alignment term}}+\\
-&\quad\Lambda(v)\underbrace{\sum_{j\neq i}f_0(||x_i(t)-x_j(t)||^2)(x_i(t)-x_j(t))}_{\text{separation term}}+\\
-&\quad\Lambda(v)\underbrace{\sum_{j\neq i}f_1(||x_i(t)-x_j(t)||^2)(x_j(t)-x_i(t))}_{\text{cohesion term}}
+u_i(t)&=\underbrace{\sum^k_{j=1}a_{ij}(x)(v_j-v_i)}_{\text{alignment term}}+\\
+&\quad\Lambda(v)\underbrace{\sum_{j\neq i}f_0(||x_i-x_j||^2)(x_i-x_j)}_{\text{separation term}}+\\
+&\quad\Lambda(v)\underbrace{\sum_{j\neq i}f_1(||x_i-x_j||^2)(x_j-x_i)}_{\text{cohesion term}}
 \end{aligned}
 \end{equation}
 
 \begin{equation}\label{eq:proposed_af}
 \begin{aligned}
-a_{ij}(x)&=\frac{K}{(\sigma^2+||x_i(t)-x_j(t)||^2)^{\beta}}\\
-\Lambda(v)&=(\frac{1}{k}\sum_{i>j}||v_i(t)-v_j(t)||^2)^{\frac{1}{2}}\\
+a_{ij}(x)&=\frac{K}{(\sigma^2+||x_i-x_j||^2)^{\beta}}\\
+\Lambda(v)&=(\frac{1}{k}\sum_{i>j}||v_i-v_j||^2)^{\frac{1}{2}}\\
 f_0(x)&=\frac{1}{(x-d_0)^{\theta}}\\
 f_1(x)&=\frac{1}{(x-d_1)^{\theta}}
 \end{aligned}
