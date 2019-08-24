@@ -1,8 +1,10 @@
 \chapter{Preliminaries and Related Work}\label{preliminaries}
 
-\section{Neighbors within Radius $r$}\label{flocking}
+\section{Fixed Topology}\label{flocking}
 
-Bird flocking or distributed behavior model was first studied in~\cite{Reynolds1987} to animate the aggregate motion in computer simulation. An evaluation metric towards three aspects, separation, cohesion and alignment were also introduced. Based on this and observations,~\cite{Vicsek1995} has proposed a discrete-time model (\ref{eq:vicsek}) and discussed the relationship between the coherence of flocking and the density of particles. In this model, each particle has a constant velocity, while its direction is determined by ${\langle\theta(t)\rangle}_r$, which is the average direction of the neighboring particles within radius $r$, with $\Delta\theta$ representing the random noise.
+\subsection{Second-Order System}
+
+Bird flocking or distributed behavior model was first studied in~\cite{Reynolds1987} to animate the aggregate motion in computer simulation. Based on~\cite{Reynolds1987} and observations, a discrete time model (\ref{eq:vicsek}) and the correlation between flock coherence and particle density have been discussed in~\cite{Vicsek1995}. In this model, each particle has a constant velocity, while its direction is determined by ${\langle\theta(t)\rangle}_r$, which is the average direction of the neighboring particles within radius $r$, with $\Delta\theta$ representing the random noise. To clarify the notation, we identify the set of $k$ agents as $V=\{1,...,k\}$ and $x_{ij}=x_i-x_j$, where $x_i$ or $x_i(t)$, $v_i$ or $v_i(t)\in\mathbb{R}^n$ represent the position and velocity of agent $i$ at time $t$ respectively. Unless otherwise noted, we assume the initial positions of the agents are distinct that $x_i(0)\neq x_j(0)$ for $i, j\in V$.
 
 \begin{equation}\label{eq:vicsek}
 \begin{aligned}
@@ -11,14 +13,14 @@ x_i(t+\Delta t)&=x_i(t)+v_i(t)\Delta t\\
 \end{aligned}
 \end{equation}
 
-In natural flocking, however, the velocity of each bird is various that (\ref{eq:vicsek}) can not be simply applied. Nor the cohesion and collision avoidance criteria can be promised.~\cite{CuckerSmale2007} has proposed a control law for both discrete-time and continuous-time (\ref{eq:motion}, \ref{eq:cs_aij}, \ref{fig:cs_aij}) cases, where with given condition, the convergence of the flock to a common velocity is guaranteed. We identify the set of $N$ agents as $V=\{1,...,N\}$.
+In~\cite{Coordination2013}, the convergence of the model (without noise) in~\cite{Vicsek1995} is proved, however, neither the speeds of birds in nature are constant, nor the headings of birds can be drastically changed that (\ref{eq:vicsek}) cannot be applied for realization. \cite{CuckerSmale2007} has proposed a control law (\ref{eq:motion}, Fig.~\ref{fig:cs_aij}) to resolve the velocity alignment and cohesion problem that the convergence of the flock to a common velocity is guaranteed, however, collision avoidance between agents cannot be assured. Similar protocols including communication delay have been summarized in~\cite{moreau2004stability,ren2005consensus}. The weight $a_{ij}(x):\mathbb{E}^k\to[0,\infty)$ qualifies the influence of agent $j$ acting on agent $i$, which is a function of agent positions. In~\cite{Vicsek1995}, $a_{ij}(x)$ could be equally defined as (\ref{eq:vicsek_aij}).
 
 \begin{equation}\label{eq:motion}
-\ddot{x}_i(t)=\underbrace{\sum^k_{j=1}a_{ij}(x)(v_j-v_i)}_{\text{velocity-consensus term}}+\underbrace{(-\bigtriangledown_{x_i}V_i)}_{\text{gradient-based term}}
+\begin{aligned}
+\ddot{x}_i(t)&=\sum^k_{j=1}a_{ij}(x)(v_j-v_i)\\
+a_{ij}(x)&=\frac{K}{(\sigma^2+||x_i-x_j||^2)^{\beta}}
+\end{aligned}
 \end{equation}
-
-\noindent
-$x_i, v_i$ and $u_i$ represent the position, velocity and input of agent $i$ at time $t$ respectively. Unless otherwise noted, we assume agents are at distinct positions, $x_i(0)\neq x_j(0)$ for $i, j\in V$. The weight function $a_{ij}:\mathbb{E}^k\to[0,\infty)$ qualifies the influence of agent $j$ on agent $i$, which is a function of agents' positions. In~\cite{Vicsek1995}, $a_{ij}$ is equally defined as (\ref{eq:vicsek_aij}), an example of $a_{ij}$ is illustrated in Fig.~\ref{fig:v_aij}.
 
 \begin{equation}\label{eq:vicsek_aij}
 a_{ij}(x)=\left\{\begin{array}{rcl}
@@ -27,45 +29,60 @@ a_{ij}(x)=\left\{\begin{array}{rcl}
 \end{array} \right.
 \end{equation}
 
-\begin{equation}\label{eq:cs_aij}
-a_{ij}(x)=\frac{K}{(\sigma^2+||x_i-x_j||^2)^{\beta}}
-\end{equation}
+Based on~\cite{CuckerSmale2007},~\cite{CuckerDong2010} has further proved the separation of the flocks that the relative distance between each pair of agents will always be greater than a certain lower bound, by appending a collision avoidance term (\ref{eq:dong_aij}). $f(\cdot)$ is a repelling function, $\Lambda(\cdot)$ is a regulating factor and the definition of $a_{ij}(x)$ remains the same as (\ref{eq:motion}). An example of $f(x)=\frac{1}{(x-d_0)^{\theta}}$ is illustrated in Fig.~\ref{fig:dong_f}.
 
 \begin{figure}[htb]
   \centering
-  \subfigure[$a_{ij}(x)$ with $R=1$ in~\cite{Vicsek1995}]{\label{fig:v_aij}\includegraphics[width=0.32\textwidth]{figure/chapter_2/vicsek_aij.png}}
-  \subfigure[$a_{ij}(x)$ with $\sigma=1$, $K=1$ and $\beta=0.5$ in~\cite{CuckerSmale2007}]{\label{fig:cs_aij}\includegraphics[width=0.32\textwidth]{figure/chapter_2/cs_aij.png}}
-  \subfigure[$f(x)$ with $d_0=1$ and $\theta=1.2$ in ~\cite{CuckerDong2010}]{\label{fig:dong_f}\includegraphics[width=0.32\textwidth]{figure/chapter_2/dong_f.png}}
-  \caption{Examples of $a_{ij}(x)$ in~\cite{Vicsek1995},~\cite{CuckerSmale2007} and $f(x)$ in~\cite{CuckerDong2010}}\label{fig:example_v}
+  \subfigure[$a_{ij}(x)$ with $\sigma=1$, $K=1$ and $\beta=0.5$ in~\cite{CuckerSmale2007}.]{\label{fig:cs_aij}\includegraphics[width=0.32\textwidth]{figure/chapter_2/cs_aij.eps}}
+  \subfigure[$f(x)$ with $d_0=1$ and $\theta=2$ in ~\cite{CuckerDong2010}, dashed line represents $x=1$.]{\label{fig:dong_f}\includegraphics[width=0.32\textwidth]{figure/chapter_2/dong_f.eps}}
+  \subfigure[$V_{ij}(x)=\frac{1}{x}+log(x)$, dashed line indicates the global minimum.]{\label{fig:V_ij}\includegraphics[width=0.32\textwidth]{figure/chapter_2/Vij.eps}}
+  \caption{Examples of $a_{ij}(x)$ in~\cite{CuckerSmale2007}, $f(x)$ in~\cite{CuckerDong2010} and $V_{ij}(x)$ in~\cite{FixedTopology}.}\label{fig:example_v}
 \end{figure}
-
-Based on~\cite{CuckerSmale2007},~\cite{CuckerDong2010} has further proved the cohesion and separation of the flocks given $\beta\leq\frac{1}{2}$, by appending a collision avoidance term to the $u_i(t)$ in (\ref{eq:motion}), as shown in (\ref{eq:dong_aij}). The definition of $a_{ij}$ remains the same as (\ref{eq:cs_aij}). Where $f:(d_0,\infty)\to[0,\infty)$ is any repelling function satisfying: for any $d>d_0$, $\int_{d_0}^d f(x)dx=\infty$ and $\int_d^{\infty} f(x)dx<\infty$. An example $f(x)=\frac{1}{(x-d_0)^{\theta}}$ is illustrated in Fig.~\ref{fig:dong_f}.
 
 \begin{equation}\label{eq:dong_aij}
 \begin{aligned}
-\ddot{x}_i(t)&=\sum^k_{j=1}a_{ij}(x)(v_j-v_i)+\underbrace{\Lambda(v)\sum_{j\neq i}f(||x_i-x_j||^2)(x_i-x_j)}_{\text{collision-avoidance term}}\\
+\ddot{x}_i(t)&=\underbrace{\sum^k_{j=1}a_{ij}(x)(v_j-v_i)}_{\text{velocity consensus term}}+\underbrace{\Lambda(v)\sum_{j\neq i}f(||x_i-x_j||^2)(x_i-x_j)}_{\text{collision avoidance term}}\\
 \Lambda(v)&=(\frac{1}{k}\sum_{i>j}||v_i-v_j||^2)^{\frac{1}{2}}
 \end{aligned}
 \end{equation}
 
-In~\cite{Saber2004}, the author claims the proposed model (\ref{eq:saber}) embodies all three flocking rules from~\cite{Reynolds1987}, where $\phi(\cdot)$ is a potential function, $n_{ij}$ is a vector along the line connecting $x_i$ and $x_j$ and $a_{ij}$ denotes corresponding adjacency matrix. When the number of agents is greater than ten, however, fragmentation may occur that a collective navigational feedback pair $(x_r, v_r)$ has to be introduced.
+Gradient-based schemes (\ref{eq:fix_topo}) have also been developed in~\cite{FixedTopology,Saber2004,tanner2007flocking,olfati2002distributed} to stabilize inter-agent distances. With the designed artificial potential function $V_{ij}(x)$ (Fig.~\ref{fig:V_ij}) in~\cite{FixedTopology}, the relative distance between agents is expected to locate at the unique minimum. In~\cite{Saber2004}, three flocking rules from~\cite{Reynolds1987}, split, rejoin and squeeze maneuvers have been embodied within their proposed model (\ref{eq:saber}), where $\phi(\cdot)$ is a potential function, $n_{ij}$ is the unit vector along the line connecting $x_i$ and $x_j$ and $a_{ij}$ denotes corresponding adjacency matrix element. When the total number of agents is greater than ten, however, fragmentation may occur that a collective reference pair $(x_r, v_r)$ has to be introduced.
 
-\begin{equation}\label{eq:saber}
-\ddot{x}_i(t)=\underbrace{\sum_{j\in V}a_{ij}(x)(v_j-v_i)}_{\text{consensus term}}+\underbrace{\sum_{j\in V}\phi(||x_j-x_i||_{\sigma})n_{ij}}_{\text{gradient-based term}}+\underbrace{(-c_1(x_i-x_r)-c_2(v_i-v_r))}_{\text{navigational feedback term}}
+\begin{equation}\label{eq:fix_topo}
+\ddot{x}_i(t)=\underbrace{\sum_{j\in V}(v_j-v_i)}_{\text{velocity consensus term}}+\underbrace{(-\sum_{j\in V}\bigtriangledown_{x_i}V_{ij})}_{\text{gradient-based term}}
 \end{equation}
 
-\section{$K$ Nearest Neighbors}
+\begin{equation}\label{eq:saber}
+\ddot{x}_i(t)=\underbrace{\sum_{j\in V}a_{ij}(x)(v_j-v_i)}_{\text{velocity consensus term}}+\underbrace{\sum_{j\in V}\phi(||x_j-x_i||_{\sigma})n_{ij}}_{\text{gradient-based term}}+\underbrace{(-c_1(x_i-x_r)-c_2(v_i-v_r))}_{\text{navigational feedback term}}
+\end{equation}
 
-Unlike above mentioned theories assume, \cite{PNAS} discovered that interaction between agents in flocking does not depend on the metric distance but rather on the topological distance. An average number of six to seven neighbors are involved in the interaction instead of neighbors within a fixed distance. An example is illustrated in Fig.~\ref{fig:knn}, when $q=3$, three closest neighbors of agent 1 and agent 5 are agents 2, 3 and 6 and agents 1, 4 and 6 respectively. Given conditioned initial starting position, velocity and original $a_{ij}$ in (\ref{eq:vicsek_aij}),~\cite{KNN} has proved the alignment of the velocity in flocks.
+\subsection{First-Order System}
 
-\begin{figure}[htb]
+In~\cite{Stability} (\ref{eq:att_rep}),~\cite{Connectedness} (\ref{eq:connect}) and~\cite{Invariant} (\ref{eq:unbound}), first-order control models have been studied that with carefully designed attraction and repulsion functions, Lyapunov function candidates and LaSalle's Invariant Principle, all the flock members are expected to converge to a constant arrangement ($\dot{\mathbf{x}}=0$) within a hyper-ball. Separation is ensured in the first-order system, however, velocity alignment is less satisfied.
+
+\begin{equation}\label{eq:att_rep}
+\dot{x}_i=\sum^N_{j=1}(1-e^{-||x_i-x_j||^2})(x_j-x_i)
+\end{equation}
+
+\begin{equation}\label{eq:connect}
+\dot{x}_i=-\sum_{j\in V}\frac{\partial W_{ij}}{\partial x_i}-\sum_{j\in V}\frac{\partial V_{ij}}{\partial x_i}
+\end{equation}
+
+\begin{equation}\label{eq:unbound}
+\dot{x}_i=\sum_{j\in V}\frac{2\rho_{ij}}{\gamma_{ij}^2}(D_{ij})_i\mathbf{x}
+\end{equation}
+
+\section{Dynamic Topology}
+
+Unlike above mentioned theories assume,~\cite{PNAS} discovered that interaction between agents in flocking does not necessarily depend on the metric distance but rather on the topological distance. An average number of six to seven nearest neighbors are involved in the interaction instead of the whole neighbors within a fixed distance. An example is illustrated in Fig.~\ref{fig:knn}, where the number of nearest neighbors involved $q$ is three. Given conditional initial position, velocity and original $a_{ij}$ in (\ref{eq:vicsek_aij}),~\cite{KNN} has proved that the agents asymptotically agree on a common velocity. Based on~\cite{KNN},~\cite{CuckerDong2016} have further introduced the quotient $\frac{q}{k-1}$ that unconditional flocking occurs when $\frac{q}{k-1}\geq\frac{1}{2}$, where $k$ is the total number of agents.
+
+In~\cite{DynamicTopology}, it is shown that with modified potential function (Fig.~\ref{fig:U_ij}), where the potential is constant when the relative distance between two agents is larger than a certain limit and original model (\ref{eq:fix_topo}), the stability of the flock is guaranteed if no agent is separated initially.
+
+\begin{figure}[H]
   \centering
-  \includegraphics[width=0.5\textwidth]{figure/chapter_2/knn.png}
-  \caption{A flock of six agents with $q=3$}
-  \label{fig:knn}
+  \subfigure[A flock of agents with $q=3, k=6$, three closest neighbors of agent 1 and agent 5 are agents 2, 3 and 6 and agents 1, 4 and 6 respectively.]{\label{fig:knn}\includegraphics[width=0.4\textwidth]{figure/chapter_2/knn.png}}
+  \subfigure[$V_{ij}$ in~\cite{DynamicTopology}. The disconnection of the potential function does not affect the stability.]{\label{fig:U_ij}\includegraphics[width=0.4\textwidth]{figure/chapter_2/U.eps}}
+  \caption{Examples of dynamic topology and modified potential function.}\label{fig:example_v}
 \end{figure}
-
-\noindent
-Based on~\cite{KNN},~\cite{CuckerDong2016} have further introduced the quotient $\frac{q}{k-1}$ that unconditional flocking occurs when $\frac{q}{k-1}\geq\frac{1}{2}$.
 
 \newpage
