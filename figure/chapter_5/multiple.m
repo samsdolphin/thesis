@@ -1,8 +1,8 @@
-clear all;
+%clear all;
 close all;
-N=4;
-dt=0.1;
-step=50;
+N=10;
+dt=0.01;
+step=1000;
 d0=1;
 d1=2.25;
 K=1;
@@ -19,6 +19,16 @@ dis_vk=zeros(1,step+1);
 dis_cs=zeros(1,step+1);
 dis_jiu=zeros(1,step+1);
 dis_us=zeros(1,step+1);
+
+min_dis_vk=5*ones(1,step);
+min_dis_cs=5*ones(1,step);
+min_dis_jiu=5*ones(1,step);
+min_dis_us=5*ones(1,step);
+
+max_dis_vk=zeros(1,step);
+max_dis_cs=zeros(1,step);
+max_dis_jiu=zeros(1,step);
+max_dis_us=zeros(1,step);
 
 p_vk=zeros(2*N,step+1);
 p_cs=zeros(2*N,step+1);
@@ -86,14 +96,44 @@ elseif N==5
         v_us(2*i-1:2*i,1)=[cos(ag);sin(ag)];
     end
 elseif N==10
-    p_us(:, 1)=[0; 0; 2; 0; 4; 0; 6; 0; 1; sqrt(3); 1; -sqrt(3); 3; sqrt(3); 3; -sqrt(3); 5; sqrt(3); 5; -sqrt(3)]*0.625;
-    v_us(:,1)=randi([-100,100],[20,1])/100;
+    p_vk(:, 1)=[0; 0; 2; 0; 4; 0; 6; 0; 1; sqrt(3); 1; -sqrt(3); 3; sqrt(3); 3; -sqrt(3); 5; sqrt(3); 5; -sqrt(3)]*0.625;
+    p_cs=p_vk;
+    p_jiu=p_vk;
+    p_us=p_vk;
+    v_vk(:,1)=randi([-100,100],[20,1])/100;
+    v_vk(:,1)=v_start;
+    v_cs=v_vk;
+    v_jiu=v_vk;
+    v_us=v_vk;
 elseif N==16
-    p_us(:, 1)=[0; 0; 2; 0; 4; 0; 6; 0; 1; sqrt(3); 1; -sqrt(3); 3; sqrt(3); 3; -sqrt(3); 5; sqrt(3); 5; -sqrt(3); 2; 2*sqrt(3); 2; -2*sqrt(3);
+    p_vk(:, 1)=[0; 0; 2; 0; 4; 0; 6; 0; 1; sqrt(3); 1; -sqrt(3); 3; sqrt(3); 3; -sqrt(3); 5; sqrt(3); 5; -sqrt(3); 2; 2*sqrt(3); 2; -2*sqrt(3);
         4; 2*sqrt(3); 4; -2*sqrt(3); 3; 3*sqrt(3); 3; -3*sqrt(3)]*0.625;
-    v_us(:,1)=randi([-100,100],[32,1])/100;
+    p_cs=p_vk;
+    p_jiu=p_vk;
+    p_us=p_vk;
+    for i=1:N
+        ag=rand(1)*2*pi;
+        v_vk(2*i-1:2*i,1)=[cos(ag);sin(ag)];
+    end
+    v_cs=v_vk;
+    v_jiu=v_vk;
+    v_us=v_vk;
+    %v_us(:,1)=randi([-100,100],[32,1])/100;
+elseif N==32
+    p_vk(:, 1)=[0; 0; 2; 0; 4; 0; 6; 0; 1; sqrt(3); 1; -sqrt(3); 3; sqrt(3); 3; -sqrt(3); 5; sqrt(3); 5; -sqrt(3); 2; 2*sqrt(3); 2; -2*sqrt(3);
+        4; 2*sqrt(3); 4; -2*sqrt(3); 3; 3*sqrt(3); 3; -3*sqrt(3); newp];
+    p_cs=p_vk;
+    p_jiu=p_vk;
+    p_us=p_vk;
+    for i=1:N
+        ag=rand(1)*2*pi;
+        v_vk(2*i-1:2*i,1)=[cos(ag);sin(ag)];
+    end
+    v_cs=v_vk;
+    v_jiu=v_vk;
+    v_us=v_vk;
+    %v_us(:,1)=randi([-100,100],[32,1])/100;
 end
-
 cnt_vk=0;
 cnt_cs=0;
 cnt_jiu=0;
@@ -122,6 +162,7 @@ for i=1:N
                 dis_us(1,1)=dis_us(1,1)+rp_us;
                 cnt_us=cnt_us+1;
             end
+            
             scal_us(1,1)=scal_us(1,1) + dot(v_us(2*i-1:2*i,1),v_us(2*j-1:2*j,1))/norm(v_us(2*i-1:2*i,1))/norm(v_us(2*j-1:2*j,1));
             scal_vk(1,1)=scal_us(1,1);
             scal_cs(1,1)=scal_us(1,1);
@@ -164,6 +205,31 @@ for i=1:step
                 rp_us=norm(p_us(2*j-1:2*j,i)-p_us(2*k-1:2*k,i));
                 rv_us=norm(v_us(2*j-1:2*j,i)-v_us(2*k-1:2*k,i));
                 
+                if rp_vk<min_dis_vk(1,i)
+                    min_dis_vk(1,i)=rp_vk;
+                end
+                if rp_vk>max_dis_vk(1,i)
+                    max_dis_vk(1,i)=rp_vk;
+                end
+                if rp_cs<min_dis_cs(1,i)
+                    min_dis_cs(1,i)=rp_cs;
+                end
+                if rp_cs>max_dis_cs(1,i)
+                    max_dis_cs(1,i)=rp_cs;
+                end
+                if rp_jiu<min_dis_jiu(1,i)
+                    min_dis_jiu(1,i)=rp_jiu;
+                end
+                if rp_jiu>max_dis_jiu(1,i)
+                    max_dis_jiu(1,i)=rp_jiu;
+                end
+                if rp_us<min_dis_us(1,i)
+                    min_dis_us(1,i)=rp_us;
+                end
+                if rp_us>max_dis_us(1,i)
+                    max_dis_us(1,i)=rp_us;
+                end
+                
                 if rp_vk<sqrt(2*d1)
                     d_vk=d_vk+rp_vk;
                     cnt_vk=cnt_vk+1;
@@ -172,7 +238,7 @@ for i=1:step
                     d_cs=d_cs+rp_cs;
                     cnt_cs=cnt_cs+1;
                 end
-                if rp_jiu<sqrt(2*d1)
+                if rp_jiu<sqrt(3*d1)
                     d_jiu=d_jiu+rp_jiu;
                     cnt_jiu=cnt_jiu+1;
                 end
@@ -240,10 +306,10 @@ scal_us=abs(scal_us/N/(N-1));
 avg_us=avg_us+scal_us;
 
 g=figure;
-plot(p_us(1,:),p_us(2,:),'o');
+plot(p_jiu(1,:),p_jiu(2,:),'o');
 hold on;
 for i=1:N-1
-    plot(p_us(2*i+1,:),p_us(2*i+2,:),'o');
+    plot(p_jiu(2*i+1,:),p_jiu(2*i+2,:),'o');
 end
 hold off;
 axis equal;

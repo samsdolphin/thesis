@@ -1,10 +1,10 @@
 %clear all;
 close all;
-N=2;
-dt=0.1;
-step=100;
-d0=1;
-d1=2.25;
+N=3;
+dt=0.01;
+step=300;
+d0=0.5;
+d1=9;
 K=1;
 sigma=1;
 beta=0.25;
@@ -18,7 +18,7 @@ a=zeros(2*N,step+1);
 scal=zeros(1,step+1);
 
 if N==2
-    p=[0; 0; 0; 2]*0.625;
+    p(:,1)=[0; 0; 0; 2]*0.625;
     %v=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4)];
     for i=1:N
         ag=rand(1)*pi/2+4/pi;
@@ -26,11 +26,12 @@ if N==2
     end
 elseif N==3
     p(:,1)=[0; 0; 2; 0; 1; sqrt(3)]*0.625;
-    %v(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(2*pi/4);sin(2*pi/4)];
+    %p(:,1)=[0; 0; 2; 0; 4; 0]*0.625;    
     for i=1:N
         ag=rand(1)*pi/2+4/pi;
         v(2*i-1:2*i,1)=[cos(ag);sin(ag)];
     end
+    %v(:,1)=[cos(pi/4);sin(pi/4);3*cos(2*pi/4);3*sin(2*pi/4);cos(3*pi/4);sin(3*pi/4)];
 elseif N==4
     p(:,1)=[0; 0; 2; 0; 1; sqrt(3); 1; -sqrt(3)]*0.625;
     %v(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(2*pi/4);sin(2*pi/4);cos(pi/4);sin(pi/4)];
@@ -129,7 +130,13 @@ for i=1:N-1
     plot(p(2*i+1,:),p(2*i+2,:),'o');
 end
 hold off;
-axis square;
+axis equal;
+arrow(p(1:2,1),p(1:2,1)+v(1:2,1),'EdgeColor','b','FaceColor','b')
+arrow(p(3:4,1),p(3:4,1)+v(3:4,1),'EdgeColor','r','FaceColor','r')
+arrow(p(5:6,1),p(5:6,1)+v(5:6,1),'EdgeColor','y','FaceColor','y')
+line([p(1,end),p(3,end)],[p(2,end),p(4,end)],'linestyle','--');
+line([p(1,end),p(5,end)],[p(2,end),p(6,end)],'linestyle','--');
+line([p(3,end),p(5,end)],[p(4,end),p(6,end)],'linestyle','--');
 
 h=figure;
 t=1:step+1;
