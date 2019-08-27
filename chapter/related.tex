@@ -4,7 +4,7 @@
 
 \subsection{Second-Order System}
 
-Bird flocking or distributed behavior model was first studied in~\cite{Reynolds1987} to animate the aggregate motion in computer simulation. Based on~\cite{Reynolds1987} and observations, a discrete time model (\ref{eq:vicsek}) and the correlation between flock coherence and particle density have been discussed in~\cite{Vicsek1995}. In this model, each particle has a constant velocity, while its direction is determined by ${\langle\theta(t)\rangle}_r$, which is the average direction of the neighboring particles within radius $r$, with $\Delta\theta$ representing the random noise. To clarify the notation, we identify the set of $k$ agents as $V=\{1,...,k\}$ and $x_{ij}=x_i-x_j$, where $x_i$ or $x_i(t)$, $v_i$ or $v_i(t)\in\mathbb{R}^n$ represent the position and velocity of agent $i$ at time $t$ respectively. Unless otherwise noted, we assume the initial positions of the agents are distinct that $x_i(0)\neq x_j(0)$ for $i, j\in V$.
+Bird flocking or distributed behavior model was first studied in~\cite{Reynolds1987} to animate the aggregate motion of birds in computer simulation. Based on~\cite{Reynolds1987} and observations, a discrete time model (\ref{eq:vicsek}) and the correlation between flock coherence and particle density have been discussed in~\cite{Vicsek1995}. In this model, each particle has a constant velocity, while its direction is determined by ${\langle\theta(t)\rangle}_r$, which is the average direction of the neighboring particles within radius $r$, with $\Delta\theta$ representing the random noise. To clarify the notation, we identify the set of $k$ agents as $V=\{1,...,k\}$ and $x_{ij}=x_i-x_j$, where $x_i$ or $x_i(t)$ and $v_i$ or $v_i(t)\in\mathbb{R}^n$ represent the position and velocity of agent $i$ at time $t$ respectively. Unless otherwise noted, we assume the initial positions of the agents are distinct that $x_i(0)\neq x_j(0)$ for $i, j\in V$.
 
 \begin{equation}\label{eq:vicsek}
 \begin{aligned}
@@ -74,15 +74,15 @@ In~\cite{Stability} (\ref{eq:att_rep}),~\cite{Connectedness} (\ref{eq:connect}) 
 
 \section{Dynamic Topology}
 
-Unlike above mentioned theories assume,~\cite{PNAS} discovered that interaction between agents in flocking does not necessarily depend on the metric distance but rather on the topological distance. An average number of six to seven nearest neighbors are involved in the interaction instead of the whole neighbors within a fixed distance. An example is illustrated in Fig.~\ref{fig:knn}, where the number of nearest neighbors involved $q$ is three. Given conditional initial position, velocity and original $a_{ij}$ in (\ref{eq:vicsek_aij}),~\cite{KNN} has proved that the agents asymptotically agree on a common velocity. Based on~\cite{KNN},~\cite{CuckerDong2016} have further introduced the quotient $\frac{q}{k-1}$ that unconditional flocking occurs when $\frac{q}{k-1}\geq\frac{1}{2}$, where $k$ is the total number of agents.
+Unlike above mentioned theories assume,~\cite{PNAS} discovered that interaction between agents in flocking does not necessarily depend on the metric distance but rather on the topological distance. An average number of six to seven nearest neighbors are involved in the interaction instead of the whole neighbors within a fixed distance. An example is illustrated in Fig.~\ref{fig:knn}, where the number of nearest neighbors involved, denoted by $q$, is three and the total number of agents, denoted by $k$, is six. Given conditional initial positions, velocities and original $a_{ij}$ in (\ref{eq:vicsek_aij}),~\cite{KNN} has proved that the agents asymptotically agree on a common velocity. Based on~\cite{KNN},~\cite{CuckerDong2016} have further introduced the quotient $\frac{q}{k-1}$ that unconditional flocking occurs when $\frac{q}{k-1}\geq\frac{1}{2}$.
 
-In~\cite{DynamicTopology}, it is shown that with modified potential function (Fig.~\ref{fig:U_ij}), where the potential is constant when the relative distance between two agents is larger than a certain limit and original model (\ref{eq:fix_topo}), the stability of the flock is guaranteed if no agent is separated initially.
+In~\cite{DynamicTopology}, it is shown that with modified potential function (Fig.~\ref{fig:U_ij}), where the potential is constant when the relative distance between two agents is larger than a certain limit and original control model (\ref{eq:fix_topo}), the stability of the flock is guaranteed if no agent is separated initially.
 
 \begin{figure}[H]
   \centering
   \subfigure[A flock of agents with $q=3, k=6$, three closest neighbors of agent 1 and agent 5 are agents 2, 3 and 6 and agents 1, 4 and 6 respectively.]{\label{fig:knn}\includegraphics[width=0.4\textwidth]{figure/chapter_2/knn.png}}
-  \subfigure[$V_{ij}$ in~\cite{DynamicTopology}. The disconnection of the potential function does not affect the stability.]{\label{fig:U_ij}\includegraphics[width=0.4\textwidth]{figure/chapter_2/U.eps}}
-  \caption{Examples of dynamic topology and modified potential function.}\label{fig:example_v}
+  \subfigure[$V_{ij}$ in~\cite{DynamicTopology}. The left dashed line indicates the global minimum and the right dashed line indicates a interaction range. The disconnection of the potential function does not affect the stability.]{\label{fig:U_ij}\includegraphics[width=0.4\textwidth]{figure/chapter_2/U.eps}}
+  \caption{Examples of dynamic topology and modified potential function.}
 \end{figure}
 
 \newpage
