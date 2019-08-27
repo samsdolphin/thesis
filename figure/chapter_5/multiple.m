@@ -1,8 +1,8 @@
 %clear all;
 close all;
-N=10;
+N=4;
 dt=0.01;
-step=1000;
+step=300;
 d0=1;
 d1=2.25;
 K=1;
@@ -40,6 +40,11 @@ v_cs=zeros(2*N,step+1);
 v_jiu=zeros(2*N,step+1);
 v_us=zeros(2*N,step+1);
 
+mag_v_vk=zeros(N,step);
+mag_v_cs=zeros(N,step);
+mag_v_jiu=zeros(N,step);
+mag_v_us=zeros(N,step);
+
 a_vk=zeros(2*N,step+1);
 a_cs=zeros(2*N,step+1);
 a_jiu=zeros(2*N,step+1);
@@ -57,9 +62,9 @@ if N==2
     p_us=p_vk;
     for i=1:N
         ag=rand(1)*pi/2+4/pi;
-        v_vk(2*i-1:2*i,1)=[cos(ag);sin(ag)];
+        v_vk(2*i-1:2*i,1)=sin(ag)*[cos(ag);sin(ag)];
     end
-    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4)];
+    %v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4)];
     v_cs=v_vk;
     v_jiu=v_vk;
     v_us=v_vk;
@@ -72,7 +77,7 @@ elseif N==3
         ag=rand(1)*pi/2+4/pi;
         v_vk(2*i-1:2*i,1)=[cos(ag);sin(ag)];
     end
-    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(-2*pi/4);sin(-2*pi/4)];
+    v_vk(:,1)=[cos(1)*cos(pi/4);cos(1)*sin(pi/4);-cos(2)*cos(3*pi/4);-cos(2)*sin(3*pi/4);-cos(3)*cos(-2*pi/4);-cos(3)*sin(-2*pi/4)];
     v_cs=v_vk;
     v_jiu=v_vk;
     v_us=v_vk;
@@ -83,9 +88,9 @@ elseif N==4
     p_us=p_vk;
     for i=1:N
         ag=rand(1)*pi/2+4/pi;
-        v_vk(2*i-1:2*i,1)=[cos(ag);sin(ag)];
+        v_vk(2*i-1:2*i,1)=cos(ag)*[cos(ag);sin(ag)];
     end
-    v_vk(:,1)=[cos(pi/4);sin(pi/4);cos(3*pi/4);sin(3*pi/4);cos(3*pi/4);sin(3*pi/4);cos(pi/4);sin(pi/4)];
+    v_vk(:,1)=[cos(1)*cos(pi/4);cos(1)*sin(pi/4);-cos(2)*cos(3*pi/4);-cos(2)*sin(3*pi/4);-cos(3)*cos(3*pi/4);-cos(3)*sin(3*pi/4);-cos(4)*cos(pi/4);-cos(4)*sin(pi/4)];
     v_cs=v_vk;
     v_jiu=v_vk;
     v_us=v_vk;
@@ -146,19 +151,19 @@ for i=1:N
             rp_jiu=norm(p_jiu(2*j-1:2*j,1)-p_jiu(2*i-1:2*i,1));
             rp_us=norm(p_us(2*j-1:2*j,1)-p_us(2*i-1:2*i,1));
             
-            if rp_vk<sqrt(2*d1)
+            if rp_vk<sqrt(4*d1)
                 dis_vk(1,1)=dis_vk(1,1)+rp_vk;
                 cnt_vk=cnt_vk+1;
             end
-            if rp_cs<sqrt(2*d1)
+            if rp_cs<sqrt(4*d1)
                 dis_cs(1,1)=dis_cs(1,1)+rp_cs;
                 cnt_cs=cnt_cs+1;
             end
-            if rp_jiu<sqrt(2*d1)
+            if rp_jiu<sqrt(4*d1)
                 dis_jiu(1,1)=dis_jiu(1,1)+rp_jiu;
                 cnt_jiu=cnt_jiu+1;
             end
-            if rp_us<sqrt(d1)
+            if rp_us<sqrt(4*d1)
                 dis_us(1,1)=dis_us(1,1)+rp_us;
                 cnt_us=cnt_us+1;
             end
@@ -230,19 +235,19 @@ for i=1:step
                     max_dis_us(1,i)=rp_us;
                 end
                 
-                if rp_vk<sqrt(2*d1)
+                if rp_vk<sqrt(4*d1)
                     d_vk=d_vk+rp_vk;
                     cnt_vk=cnt_vk+1;
                 end
-                if rp_cs<sqrt(2*d1)
+                if rp_cs<sqrt(4*d1)
                     d_cs=d_cs+rp_cs;
                     cnt_cs=cnt_cs+1;
                 end
-                if rp_jiu<sqrt(3*d1)
+                if rp_jiu<sqrt(4*d1)
                     d_jiu=d_jiu+rp_jiu;
                     cnt_jiu=cnt_jiu+1;
                 end
-                if rp_us<sqrt(d1)
+                if rp_us<sqrt(4*d1)
                     d_us=d_us+rp_us;
                     cnt_us=cnt_us+1;
                 end
@@ -295,6 +300,13 @@ for i=1:step
     dis_cs(1,i+1)=d_cs/cnt_cs;
     dis_jiu(1,i+1)=d_jiu/cnt_jiu;
     dis_us(1,i+1)=d_us/cnt_us;
+    
+    for num=1:N
+        mag_v_vk(num,i)=sqrt(v_vk(2*num-1,i)^2+v_vk(2*num,i)^2);
+        mag_v_cs(num,i)=sqrt(v_vk(2*num-1,i)^2+v_vk(2*num,i)^2);
+        mag_v_jiu(num,i)=sqrt(v_vk(2*num-1,i)^2+v_vk(2*num,i)^2);
+        mag_v_us(num,i)=sqrt(v_vk(2*num-1,i)^2+v_vk(2*num,i)^2);
+    end
 end
 scal_vk=abs(scal_vk/N/(N-1));
 avg_vk=avg_vk+scal_vk;
@@ -306,16 +318,20 @@ scal_us=abs(scal_us/N/(N-1));
 avg_us=avg_us+scal_us;
 
 g=figure;
-plot(p_jiu(1,:),p_jiu(2,:),'o');
+plot(p_us(1,:),p_us(2,:),'o');
 hold on;
 for i=1:N-1
-    plot(p_jiu(2*i+1,:),p_jiu(2*i+2,:),'o');
+    plot(p_us(2*i+1,:),p_us(2*i+2,:),'o');
 end
 hold off;
 axis equal;
 xlabel('x position (m)')
 ylabel('y position (m)')
 title('N=4')
+arrow(p_us(1:2,1),p_us(1:2,1)+v_us(1:2,1),'EdgeColor','b','FaceColor','b')
+arrow(p_us(3:4,1),p_us(3:4,1)+v_us(3:4,1),'EdgeColor','r','FaceColor','r')
+arrow(p_us(5:6,1),p_us(5:6,1)+v_us(5:6,1),'EdgeColor','y','FaceColor','y')
+arrow(p_us(7:8,1),p_us(7:8,1)+v_us(7:8,1),'EdgeColor','y','FaceColor','y')
 
 h=figure;
 t=1:step+1;
@@ -343,5 +359,18 @@ hold off;
 axis square;
 axis([0 step+1 0 1])
 xlabel('time steps')
-ylabel('\psi_{scal}')
+ylabel('\psi_{angle}')
 title('N=4')
+
+mag=figure;
+t=1:step;
+plot(t,mag_v_vk(1,:),'LineWidth',2);
+hold on;
+for i=2:N
+    plot(t,mag_v_vk(i,:),'LineWidth',2);
+end
+axis square;
+axis([0 step 0 1])
+xlabel('time steps')
+ylabel('magnitude of velocities')
+title('N=2')
