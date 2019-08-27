@@ -1,12 +1,12 @@
 % UST THESIS DOCUMENT CLASS -- version 2.2 - not released
 %	Upgraded from version 2.1 by Alan Zhuang on November 1, 2015
 %	according to the guidelines on thesis preparation released
-%	in September 2009 by the PG secretary of the University. 
+%	in September 2009 by the PG secretary of the University.
 
 % UST THESIS DOCUMENT CLASS -- version 2.0 - not released
 %	Upgraded from version 1.0 by Kam-Fai Chan on August 1, 2001
 %	according to the guidelines on thesis preparation released
-%	on March 2001 by the PG secretary of the University. 
+%	on March 2001 by the PG secretary of the University.
 
 % UST THESIS DOCUMENT CLASS -- version 1.0 - not released
 %
@@ -47,7 +47,7 @@
 %
 %  Changes by Russ Tuck (Dec. 3-11, 1986):
 %	changed bibliography so it is included in the table of contents
-%	added \newblock definition and 2 more lines to Bibliography, 
+%	added \newblock definition and 2 more lines to Bibliography,
 %		from report.sty
 %	reworded copyright notice
 %	rewrote title page handling entirely; includes AM, MS, and PhD options.
@@ -55,17 +55,17 @@
 %   added \textspace and \textspaceundo
 %   added \textspace and \textspaceundo to \abstract
 %   no page number for \abstract
-%   added \acknowledgements \endacknowledgements 
+%   added \acknowledgements \endacknowledgements
 %   many small fixes
 %
 %  Changes by David Kotz, October 1990:
-%   added \biography 
+%   added \biography
 %   added \subject for the abstract title page
 %   added ABSTRACT and subject to the top of abstract title page
 %  Changes by David Kotz, February 1991:
 %   removed textspace from \biography
 %   centered signature lines on title pages
-    
+
 %
 %  Changes by Chee-Wai Yeung, June, 1993:
 %
@@ -105,9 +105,9 @@
 %  draft option
 %
 % \overfullrule = 0pt                % Default is don't mark overfull hboxes.
-% tuck 4/4/90: Preliminary (abstract, acknowledgements) and main chapters 
+% tuck 4/4/90: Preliminary (abstract, acknowledgements) and main chapters
 % must be double spaced, but toc shouldn't be.  Turning on double spacing
-% twice makes quadruple spacing, etc.  
+% twice makes quadruple spacing, etc.
 % \textspace turns double spacing on, and \textspaceundo turns it off.
 % See \abstract and \endabstract, \acknowledgements and \endacknowledgements.
 \def\textspace{\openup 2\jot\relax}  % Begin double spaced text (default)
@@ -124,7 +124,7 @@
 %
 % Define four switches: \ifAM, \ifMS, \ifMPhil and \ifPhD.  At most one must be
 % true when the title page is actually printed.  They are all set false
-% here, and one is normally set true by specifying an optional 
+% here, and one is normally set true by specifying an optional
 % \documentstyle parameter, one of: AM, MS, MPhil, PhD.  If they are all false
 % when \maketitle is invoked, the effect the same as \AMtrue.
 
@@ -310,7 +310,7 @@
 %	Add a new definition \PNumberAboveBottomMargin so that
 %	the author may choose to have the page number printed above
 %	the bottom margin.
-\newif\ifmovedupdefined 
+\newif\ifmovedupdefined
 \movedupdefinedfalse
 \def\PNumberAboveBottomMargin{%
   \ifmovedupdefined \else
@@ -474,7 +474,7 @@
     \end{center}
     \nobreak                         % TeX penalty to prevent page break.
 %    \vskip 40pt                      % Space between title and text.
-  } 
+  }
   % Chan:
   %   Comment out the following line.  Otherwise, the page number in
   %   a shorter page cannot be in the same position as that in the
@@ -541,7 +541,7 @@
 %\def\@schapter#1{\@makeschapterhead{#1} \@afterheading}
 
 \def\@schapter#1{
-   \@makeschapterhead{#1} 
+   \@makeschapterhead{#1}
    \@afterheading         % Routine called after chapter and section heading.
 }
 
@@ -622,7 +622,7 @@
   \addtolength{\AuthorNameLength}{2cm}
   \raisebox{-12pt}[0pt][17pt]{\rule{\AuthorNameLength}{.5pt}}\par
 					% Print line.
-  \raisebox{0pt}[0pt][0pt]{\uppercase\expandafter{#1}}\par
+  \raisebox{0pt}[0pt][0pt]{\expandafter{#1}}\par
 					% Print name below.
 }
 
@@ -672,6 +672,7 @@ scholarly research.}
 	\par\vspace{4cm}
         \begin{center}
           \candidate{\@author}
+          {\normalsize \space\mon\space\number\year}
         \end{center}
 	\textspaceundo
 %	\typeout{Authorisation Page}
@@ -685,7 +686,7 @@ scholarly research.}
 \def\TOffset{ \mbox{} \vglue 6ex }
 
 % tuck 4/4/90:
-% Both abstract formats are acceptable to Duke, 
+% Both abstract formats are acceptable to Duke,
 % as long as text of abstract is double spaced.
 
 % ABSTRACT
@@ -713,15 +714,13 @@ scholarly research.}
 %	Add certain vertical space before the title.
     \TOffset
     \begin{center}
-      {\Lbi \uppercase\expandafter{\@title} \par}
+      {\Lbi \expandafter{\@title} \par}
       \vglue 4ex
 % Chan:
 %	Make changes according to the guidelines released on March 2001.
 %      {\lbi BY \par}
 %      \vglue 4ex
-      {\lbi by \par}
-      \vglue 2ex
-      {\lbi \uppercase\expandafter{\@author} \par}
+      {by \expandafter{\@author} \par}
       \vglue 4ex
 %% Chan:
 %%	Make changes according to the guidelines released on March 2001.
@@ -736,8 +735,8 @@ scholarly research.}
       {\normalsize Department of \@department\par}
       \vglue 2ex
       {\normalsize The Hong Kong University of Science and Technology \par}
-      \vglue 10ex
-      {\Lbi ABSTRACT \par\par\normalsize}
+      \vglue 5ex
+      {\Lbi Abstract \par\par\normalsize}
     \end{center}
     % Chan:
     %   Already added above.
@@ -750,46 +749,11 @@ scholarly research.}
  \setcounter{footnote}{0}
 }
 
-%  UNIV. Microfilms abstract
-% tuck 4/4/90:
-% This creates a header with info required by UMI, but the header is redundant;
-% all the required info is on the abstract title page Duke requires.
-%
-% tuck 4/4/90: to be acceptable to Duke, must double space;
-% to avoid quad spacing main chapters, use \endabstract after body of abstract.
-\def\UMIabstract{
-	% tuck 3/17/90, replace "\titlepage\pagestyle{empty}" with next line,
-	% so start with page 1 (not 0) and don't turn page numbers off forever.
-	\abstractpage\thispagestyle{empty}
-	% tuck 3/17/90: added next two lines (show Abstract in toc)
-	\addcontentsline{toc}{chapter}{ABSTRACT}
-	\typeout{UMIabstract}
-	\textspace
-	\begin{center}
-		\def\thanks##1{} % temporarily kill any thanks lines
-		{\large \uppercase\expandafter{\@title} \par}
-		{\large\lineskip .75em\begin{tabular}[t]{c}{\@author}\end{tabular}\par}
-		{\large Under the supervision of Professor \@advisor \par}
-		\vskip 1.5em
-	\end{center}
-}
-
-% DEDICATION
-%
-\def\dedication{
-  \pchapter{Dedication}
-  \textspace
-}
-
-\def\enddedication{
-    \par\textspaceundo
-}
 
 % Chan:
 %	Make changes according to the guidelines released on March 2001.
 %	"Acknowledgments" is used instead of "Acknowledgements".
 
-%% ACKNOWLEDGEMENTS
 % ACKNOWLEDGMENTS
 %
 % tuck 4/4/90: to be acceptable to Duke, must double space; to avoid
@@ -801,7 +765,11 @@ scholarly research.}
 %	Set \acknowdefined to be true.
   \acknowdefinedtrue
 %  \pchapter{Acknowledgements}
-  \pchapter{Acknowledgments}
+  % \pchapter{Acknowledgments}
+    \begin{center}
+      {\Lbi Acknowledgments \par\par\normalsize}
+    \end{center}
+  \addcontentsline{toc}{chapter}{Acknowledgments}
   \textspace
 }
 % dfk 4/1/91: added \par to force end of paragraph before undoing
@@ -811,10 +779,81 @@ scholarly research.}
   \par\textspaceundo
 }
 
+
+\def\signature{
+    \null
+    \parskip=0pt
+    \addcontentsline{toc}{chapter}{Signature Page}
+    \typeout{Signature Page}
+
+    \TOffset
+    \begin{center}
+      {\Lbi \expandafter{\@title} \par}
+
+      \vglue 6ex
+      {by \par}
+      \vglue 2ex
+      % {\lbi \uppercase{\@author} \par}
+      {\expandafter{\@author} \par}
+      \vglue 2ex
+
+    {This is to certify that I have examined the above \@DegreeSName thesis} \\
+    \vglue 1ex
+    {and have found that it is complete and satisfactory in all respects,} \\
+    \vglue 1ex
+    {and that any and all revisions required by} \\
+    \vglue 1ex
+    {the thesis examination committee have been made.}
+%    \begin{flushleft}
+    \vglue 0ex plus 1fill
+%    \parbox{0.75\textwidth}{
+    \parbox{\maxmem}{
+%      APPROVED:\par
+%      \vglue 6ex
+      {	% @membersprinted counts the number of committee members printed so far
+
+	  \vglue 5ex
+	  \raisebox{-8pt}[0pt][17pt]{\rule{\maxmem}{.5pt}}\par	% Print line.
+		\centering \@membera
+
+	  \vglue 5ex
+	  \raisebox{-8pt}[0pt][17pt]{\rule{\maxmem}{.5pt}}\par	% Print line.
+		\centering \@memberb
+
+    \ifcoadvisordefined
+	  \vglue 5ex
+	  \raisebox{-8pt}[0pt][17pt]{\rule{\maxmem}{.5pt}}\par	% Print line.
+		\centering \@memberc
+    \fi
+
+	  % \vglue 1ex
+
+      }
+    } \par
+    \end{center}
+    % \vglue -2ex
+
+    \textspace
+
+    % \newpage
+}
+% dfk 4/1/91: added \par to force end of paragraph before undoing
+% double spacing
+%\def\endacknowledgements{
+\def\endsignature{
+    \par\textspaceundo
+		\begin{center}
+    {\normalsize Department of \@department\par}
+    {\normalsize \space\mon\space\number\year}
+    \end{center}
+    \newpage
+}
+
+
 % BIOGRAPHY:
 %
 % dfk 10/7/89: biography is required, AFTER the references.
-% I bet that it must also be double spaced, like the others. 
+% I bet that it must also be double spaced, like the others.
 % dfk 2/4/91: nope, we're still in double-space mode from \chapters.
 % Right way might be to have an \endchapters command.
 \def\biography{
@@ -828,16 +867,16 @@ scholarly research.}
 % Chan:
 %	Define and initialize several \newif variables for handling errors.
 
-\newif\ifaddlinedefined 
-\newif\ifbodydefined 
-\newif\iferrordefined 
+\newif\ifaddlinedefined
+\newif\ifbodydefined
+\newif\iferrordefined
 
-\newif\iftitledefined 
-\newif\ifacknowdefined 
-\newif\iftocdefined 
-\newif\iflofdefined 
-\newif\iflotdefined 
-\newif\ifabsdefined 
+\newif\iftitledefined
+\newif\ifacknowdefined
+\newif\iftocdefined
+\newif\iflofdefined
+\newif\iflotdefined
+\newif\ifabsdefined
 
 \addlinedefinedtrue
 \bodydefinedfalse
@@ -1224,7 +1263,7 @@ scholarly research.}
   \normalbaselines
   % tuck 3/17/90: deleted \thispagestyle; redundant, \chapter* does page style.
   \chapter*{Table of Contents}
-  \addcontentsline{toc}{chapter}{Table of Contents} 
+  \addcontentsline{toc}{chapter}{Table of Contents}
   \typeout{Table of Contents}
   \markboth{CONTENTS}{CONTENTS}
   \@starttoc{toc}
@@ -1520,19 +1559,19 @@ scholarly research.}
 \def\MA{\gdef\@DegreeFName{Master of Arts} \gdef\@DegreeSName{M.A.\ }}
 \def\MSc{\gdef\@DegreeFName{Master of Science} \gdef\@DegreeSName{M.Sc.\ }}
 \def\MPhil{%
-  \gdef\@DegreeFName{Master of Philosophy} \gdef\@DegreeSName{M.Phil.\ }
+  \gdef\@DegreeFName{Master of Philosophy} \gdef\@DegreeSName{MPhil\ }
 }
 \def\PhD{%
-  \gdef\@DegreeFName{Doctor of Philosophy} \gdef\@DegreeSName{Ph.D.\ }
+  \gdef\@DegreeFName{Doctor of Philosophy} \gdef\@DegreeSName{PhD\ }
 }
 \def\@DegreeFName{ ??DEGREE?? }
-\def\@DegreeSName{ ??M.Phil or Ph.D?? }
+\def\@DegreeSName{ ??MPhil or PhD?? }
 
 % \degree{degree name} -- used macro to declare the name of the degree.
 % Chan:
 %	Add error handling routine to \degree.
 %\def\degree#1{\gdef\@degree{#1}}
-\newif\ifdegreedefined 
+\newif\ifdegreedefined
 \def\degree#1{#1 \gdef\@degree{\@DegreeFName} \degreedefinedtrue}
 \degreedefinedfalse
 
@@ -1540,7 +1579,7 @@ scholarly research.}
 % Chan:
 %	Add error handling routine to \department.
 %\def\department#1{\gdef\@department{#1}}
-\newif\ifdeptdefined 
+\newif\ifdeptdefined
 \def\department#1{\gdef\@department{#1} \deptdefinedtrue}
 \department{??DEPARTMENT??}
 \deptdefinedfalse
@@ -1553,7 +1592,7 @@ scholarly research.}
 % Chan:
 %	Add error handling routine to \subject.
 % \def\subject#1{\gdef\@subject{#1}}
-\newif\ifsubjectdefined 
+\newif\ifsubjectdefined
 \def\subject#1{\gdef\@subject{#1} \subjectdefinedtrue}
 \subject{??SUBJECT??}
 \subjectdefinedfalse
@@ -1562,14 +1601,18 @@ scholarly research.}
 % Chan:
 %	Add error handling routine to \advisor.
 %\def\advisor#1{\gdef\@advisor{#1}}
-\newif\ifadvisordefined 
+\newif\ifadvisordefined
 \def\advisor#1{\gdef\@advisor{#1} \advisordefinedtrue}
 \advisor{??ADVISOR??}
 \advisordefinedfalse
 
 % Chan:
 %     Add a new definition for the co-adviosr.
-\def\coadvisor#1{\member{#1, Thesis Co-Supervisor}}
+\newif\ifcoadvisordefined
+% \def\coadvisor#1{\gdef\@coadvisor{#1} \coadvisordefinedtrue}
+% \coadvisor{??COADVISOR??}
+\def\coadvisor#1{\member{#1, Thesis Co-Supervisor} \coadvisordefinedtrue}
+\coadvisordefinedfalse
 
 % Set default values for department name, advisor name, and current year, and
 % the degree name.
@@ -1583,31 +1626,33 @@ scholarly research.}
 %\degree{??DEGREE??}
 %\date{\number\year}
 
-% The macros and counters between here and the definition of \maketitle help 
+% The macros and counters between here and the definition of \maketitle help
 % \maketitle handle the signature lines.
 
 % \@member{member name} -- internal macro to print a line to sign on, and the
 %	name of a committee member (sole argument) below the line.
 \newcommand{\@member}[1]{
-  \textspace
-%  \raisebox{-8pt}[0pt][17pt]{\rule{2.8in}{.5pt}}\par	% Print line.
-  \raisebox{-8pt}[0pt][17pt]{\rule{\maxmem}{.5pt}}\par	% Print line.
-  \raisebox{0pt}[0pt][0pt]{\expandafter{#1}}\par	% Print member name below.
-  \textspaceundo
-  \vglue 6ex
+{#1}
+%   \textspace
+% %  \raisebox{-8pt}[0pt][17pt]{\rule{2.8in}{.5pt}}\par	% Print line.
+%   \raisebox{-8pt}[0pt][17pt]{\rule{\maxmem}{.5pt}}\par	% Print line.
+%   \raisebox{0pt}[0pt][0pt]{\expandafter{#1}}\par	% Print member name below.
+%   \textspaceundo
+%   \vglue 6ex
 }
 
-\newlength{\maxmem}	       	% Max length of member text
+\newlength{\maxmem}	   % Max length of member text
 \newlength{\currmem}		% Length of the current member text
 \newcounter{@members}		% Number of member macros defined so far.
 % Chan:
 %	Make changes according to the guidelines released on March 2001.
-%\newcommand{\@membera}{\@member{\@advisor, Supervisor}}
-%\setcounter{@members}{1}	% Advisor is always 1st member
-%\settowidth{\maxmem}{\expandafter{\@advisor, Supervisor}}
 \newcommand{\@membera}{\@member{\@advisor, Thesis Supervisor}}
 \setcounter{@members}{1}	% Advisor is always 1st member
 \settowidth{\maxmem}{\expandafter{\@advisor, Thesis Supervisor}}
+
+% \newcommand{\@membera}{\@member{\@advisor, Supervisor}}
+% \setcounter{@members}{1}	% Advisor is always 1st member
+% \settowidth{\maxmem}{\expandafter{\@advisor, Supervisor}}
 
 % @minmembers -- holds mimumum number of member macros needed.  It is set in
 % \maketitle.
@@ -1617,7 +1662,7 @@ scholarly research.}
 %	May be used up to 7 times.  Should not be used for advisor.
 \newcommand{\member}[1]{
   \addtocounter{@members}{1}	% Inc. num of members to include this new one.
-  \ifcase\value{@members} 
+  \ifcase\value{@members}
     \typeout{Thesis format internal error.  Too few committee members.} \or
     \typeout{Thesis format internal error.  Advisor left off committee.} \or
     \newcommand{\@memberb}{\@member{#1}} \or
@@ -1626,7 +1671,7 @@ scholarly research.}
     \newcommand{\@membere}{\@member{#1}} \or
     \newcommand{\@memberf}{\@member{#1}} \or
     \newcommand{\@memberg}{\@member{#1}} \or
-    \newcommand{\@memberh}{\@member{#1}} 
+    \newcommand{\@memberh}{\@member{#1}}
   \else
     \typeout{Error using thesis format.  Too many committee members.}
   \fi
@@ -1717,13 +1762,13 @@ scholarly research.}
 }
 
 %% -- Changed for the new style info 31 August 87 by CRM
-%% 
+%%
 %% Define an abstract macro to provide an abstract page that exactly
 %% duplicates the title page, EXCEPT for the words ``an abstract'' vice
 %% ``a dissertation.''
 %%
 %% Changed by DFK 10/7/90 to put ABSTRACT at the top of the abstract
-%% title page, as well as ``(Computer Science)''. 
+%% title page, as well as ``(Computer Science)''.
 %%
 \def\maketitle{		% Define macro to print title page.
 % Chan:
@@ -1742,55 +1787,41 @@ scholarly research.}
 %	Add certain vertical space before the title.
     \TOffset
     \begin{center}
-      {\Lbi \uppercase\expandafter{\@title} \par}
+      % {\@title \par}
+      % {\Lbi \uppercase\expandafter{\@title} \par}
+      {\Lbi \@title \par}
+      % {\Lbi \@title \par}
 % Chan:
 %	Make changes according to the guidelines released on March 2001.
 %      \vglue 8ex
 %      {\lbi BY \par}
 %      \vglue 8ex
-      \vglue 12ex
-      {\lbi by \par}
-      \vglue 2ex
-      {\lbi \uppercase\expandafter{\@author} \par\par}
+      \vglue 20ex
+      % {\lbi by \par}
+      {by \par}
+      \vglue 4ex
+      {\lbi \expandafter{\@author} \par\par}
 % Chan:
 %	Make changes according to the guidelines released on March 2001.
 %      \vglue 8ex
 %      {\normalsize A Thesis Presented to \par}
-      \vglue 12ex
+      \vglue 20ex
       {\normalsize A Thesis Submitted to \par}
+      \vglue 1ex
       {\normalsize The Hong Kong University of Science and Technology\par}
-% Chan:
-%	Make changes according to the guidelines released on March 2001.
-%      {\normalsize in Partial Fulfillment\par}
-%      {\normalsize of the Requirements for\par}
-%      {\normalsize the Degree of \@degree\par}
+      \vglue 1ex
       {\normalsize in Partial Fulfillment of the Requirements for\par}
+      \vglue 1ex
       {\normalsize the Degree of \@DegreeFName\par}
-%    \ifAM
-%      {\normalsize Master of Arts\par}
-%    \else
-%      \ifMS
-%        {\normalsize Master of Science\par}
-%      \else
-%        \ifPhD
-%          {\normalsize Doctor of Philosophy\par}
-%        \else
-%          {\normalsize Master of Philosophy\par}
-%        \fi 
-%      \fi
-%    \fi
-% Chan:
-%	The following should be \@subject instead.
-%     {\normalsize in \@department\par}
-%      \vglue 7em
-     {\normalsize in \@subject\par}
-     \vglue 6ex
+      \vglue 1ex
+      {\normalsize in the Department of \@department\par}
+     \vglue 13.2ex
 % Chan:
 %	Make changes according to the guidelines released on March 2001.
 %      {\normalsize Hong Kong, \space\mon\space\number\year\par}
       {\normalsize \space\mon\space\number\year, Hong Kong\par}
-      \vglue 12ex plus 1fill
-      {\normalsize \Copyright}
+      % \vglue 12ex plus 1fill
+      % {\normalsize \Copyright}
     \end{center}
     \addcontentsline{toc}{chapter}{Title Page}
     \newpage
@@ -1800,92 +1831,6 @@ scholarly research.}
     \authorise
 
 % End of Page 2
-
-%    \let\footnotesize\small % Local definitions to make \thanks produce
-%    \let\footnoterule\relax % \normalsize footnotes with no separating rule.
-%    \setcounter{page}{0}
-    \null
-    \parskip=0pt
-%    \ifPhD
-      \setcounter{@minmembers}{8} % PhD committees have at least 5 members
-%    \else
-%      \setcounter{@minmembers}{3} % Masters committees have at least 3 members
-%    \fi
-% Chan:
-%	Add certain vertical space before the title.
-    \TOffset
-    \begin{center}
-      {\Lbi \uppercase\expandafter{\@title} \par}
-% Chan:
-%	Make changes according to the guidelines released on March 2001.
-%      \vglue 8ex
-%      {\lbi BY \par}
-%      \vglue 8ex
-      \vglue 6ex
-      {\lbi by \par}
-      \vglue 2ex
-      {\lbi \uppercase\expandafter{\@author} \par}
-% Chan:
-%	Extend the centering environment for the whole page.
-%    \end{center}
-        \textspace
-        \mbox{}
-        \par\indent
-% Chan:
-%	Make changes according to the guidelines released on March 2001.
-    {This is to certify that I have examined the above \@DegreeSName thesis} \\
-    {and have found that it is complete and satisfactory in all respects,} \\
-    {and that any and all revisions required by} \\
-    {the thesis examination committee have been made.}
-%    \begin{flushleft}
-    \vglue 0ex plus 1fill
-%    \parbox{0.75\textwidth}{
-    \parbox{\maxmem}{
-%      APPROVED:\par
-%      \vglue 6ex
-      {	% @membersprinted counts the number of committee members printed so far
-	\newcounter{@membersprinted}\setcounter{@membersprinted}{0}
- 	% Print the committee members defined by the user.
-	\loop
-	\ifnum \value{@membersprinted} < \value{@members} 
-	  \addtocounter{@membersprinted}{1}
-	  \ifcase\value{@membersprinted}
-	    \typeout{Thesis style--internal error printing members.} \or
-	    \begin{center}\@membera\end{center} \or
-	    \begin{center}\@memberb\end{center} \or
-	    \begin{center}\@memberc\end{center} \or
-	    \begin{center}\@memberd\end{center} \or
-	    \begin{center}\@membere\end{center} \or
-	    \begin{center}\@memberf\end{center} \or
-	    \begin{center}\@memberg\end{center} \or
-	    \begin{center}\@memberh\end{center}
-	  \else \typeout{Thesis style--internal error printing members.}
-	  \fi
-	\repeat
-	% If the minimum number of signature lines haven't been printed,
-	% print some more.
-%	\loop
-%	\ifnum \value{@membersprinted} < \value{@minmembers}
-%	  \addtocounter{@membersprinted}{1}
-%	  \@member{}
-%	\repeat
-      }
-%    \vglue -6ex
-    \vglue -3ex
-    } \par
-    {\normalsize Department of \@department\par}
-%    \vglue 3ex plus 1fill
-    {\normalsize \today\par}
-%   {\normalsize Date:\hfill\rule[-.4ex]{2.35in}{.5pt}}
-%    }\hfill\par
-%    \end{flushleft}
-% Chan:
-%	Move \end{center} from above position to here.
-    \end{center}
-    \addcontentsline{toc}{chapter}{Signature Page}
-    \typeout{Signature Page}
-    \textspaceundo
-    \newpage
   \end{titlepage}
 
 %
@@ -1895,6 +1840,11 @@ scholarly research.}
   \setcounter{footnote}{0} % Footnotes start at zero again.
   \let\maketitle\relax % only ONCE!?
 }
+
+
+
+
+
 %% Makeabstract command
 \def\makeabstract{		% Define macro to print title page.
   \typeout{Abstract}
@@ -1907,15 +1857,15 @@ scholarly research.}
 %	Add certain vertical space before the title.
     \TOffset
     \begin{center}
-      {\Lbi \uppercase\expandafter{\@title} \par}
+      {\@title \par}
+      % {\Lbi \@title \par}
       \vglue 4ex
 % Chan:
 %	Make changes according to the guidelines released on March 2001.
 %      {\lbi BY \par}
 %      \vglue 4ex
-      {\lbi by \par}
-      \vglue 2ex
-      {\lbi \uppercase\expandafter{\@author} \par}
+      {by \@author \par}
+      % {\lbi \@author \par}
 %      \vglue 6ex
       \vglue 4ex
 % Chan:
@@ -1928,7 +1878,7 @@ scholarly research.}
       {\normalsize Department of \@department\par}
       {\normalsize The Hong Kong University of Science and Technology \par}
       \vglue 4ex
-      {\Lbi ABSTRACT \par\par\normalsize}
+      {\Lbi Abstract \par\par\normalsize}
     \end{center}
   \end{abstractpage}
   \setcounter{footnote}{0} % Footnotes start at zero again.
@@ -2055,7 +2005,7 @@ scholarly research.}
 %   Add one more definition: \acting for handling the title of acting
 %     department head (2002/01/01).
 
-\newif\ifdatedefined 
+\newif\ifdatedefined
 \datedefinedfalse
 \def\defencedate#1#2#3{%
   \def\year{ #1 } \def\month{ #2 } \def\day{ #3 }
@@ -2071,7 +2021,7 @@ scholarly research.}
       \addlinedefinedfalse
     \fi
     \typeout{%
-      Warning: \noexpand\acting should be defined before 
+      Warning: \noexpand\acting should be defined before
 		\noexpand\depthead{Prof. Name}.
     }
     \typeout{}
@@ -2079,7 +2029,7 @@ scholarly research.}
     \actingdefinedtrue
   \fi
 }
-\newif\ifdheaddefined 
+\newif\ifdheaddefined
 \dheaddefinedfalse
 \def\depthead#1{%
   \ifdheaddefined
@@ -2132,4 +2082,3 @@ scholarly research.}
 \def\theo#1{\nameTheorem~\ref{#1}}
 \def\alg#1{\nameAlgorithm~\ref{#1}}
 %end
-
